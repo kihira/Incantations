@@ -1,5 +1,6 @@
 package item;
 
+import common.Incantations;
 import net.minecraft.item.Item;
 
 public class ItemResearchNotes extends Item {
@@ -8,5 +9,6 @@ public class ItemResearchNotes extends Item {
 		setMaxDamage(1);
 		setMaxStackSize(1);
 		setUnlocalizedName("researchNotes");
+		setCreativeTab(Incantations.tabIncantations);
 	}
 }

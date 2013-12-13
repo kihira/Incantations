@@ -1,21 +1,30 @@
 package incantation;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IncantationSummon extends Incantation {
 
-	private ArrayList<String> summonableList = new ArrayList<String>();
+	private HashMap<String, Class> summonableList = new HashMap<String, Class>();
 	private ArrayList<String> descriptorList = new ArrayList<String>();
 
 	public IncantationSummon() {
 		super("summon");
 		//TODO complete list
-		summonableList.add("zombie");
-		summonableList.add("chicken");
-		summonableList.add("pig");
-		summonableList.add("cow");
+		summonableList.put("zombie", EntityZombie.class);
+		summonableList.put("chicken", EntityChicken.class);
+		summonableList.put("pig", EntityPig.class);
+		summonableList.put("cow", EntityCow.class);
 
 		descriptorList.add("burning");
 		descriptorList.add("fast");
@@ -38,7 +47,27 @@ public class IncantationSummon extends Incantation {
 
 	@Override
 	public void doIncantation(String incantation, EntityPlayer entityPlayer) {
-
+		String[] words = incantation.split(" ");
+		if (matchesSummonable(words[1])) {
+			try {
+				//Will this work? who knows!
+				Constructor constructor = summonableList.get(words[1]).getDeclaredConstructor(World.class);
+				EntityLiving entityLiving = (EntityLiving) constructor.newInstance(entityPlayer.worldObj);
+				//TODO spawn where player is looking
+				entityLiving.setLocationAndAngles(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 0, 0);
+				//Apply descriptors
+				if (words.length > 2) {
+					for (String word:words) {
+						if (word.equals("burning")) entityLiving.setFire(10);
+						//TODO fix
+						if (word.equals("fast")) entityLiving.setAIMoveSpeed(15f);
+					}
+				}
+				entityPlayer.worldObj.spawnEntityInWorld(entityLiving);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -47,7 +76,7 @@ public class IncantationSummon extends Incantation {
 	}
 
 	private boolean matchesSummonable(String word) {
-		return summonableList.contains(word.toLowerCase());
+		return summonableList.containsKey(word.toLowerCase());
 	}
 
 	private boolean matchesDescriptor(String word) {

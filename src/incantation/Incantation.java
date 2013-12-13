@@ -14,7 +14,7 @@ public abstract class Incantation {
 	 * @param word
 	 */
 	public Incantation(String word) {
-		if (incantationHashMap.get(word.toLowerCase()) != null) {
+		if (incantationHashMap.get(word.toLowerCase()) == null) {
 			incantationHashMap.put(word.toLowerCase(), this);
 		}
 		else throw new IllegalArgumentException("The incantation word " + word + " is already registered!");
