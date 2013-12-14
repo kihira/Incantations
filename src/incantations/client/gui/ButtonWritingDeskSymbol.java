@@ -1,9 +1,9 @@
-package incantations.gui;
+package incantations.client.gui;
 
 import incantations.incantation.Symbol;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
 public class ButtonWritingDeskSymbol extends GuiButton {
@@ -36,8 +36,24 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 
 			//TODO keep all textures in same file?
 			par1Minecraft.getTextureManager().bindTexture(symbol.getTexture());
-			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.height, this.width);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			//this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.height, this.width);
+			this.drawScrollSymbol(this.xPosition + 2, this.yPosition + 2, 0, 0, 15, 15);
+			GL11.glDisable(GL11.GL_BLEND);
 			//System.out.println("Drawing a symbol at " + this.xPosition + " " + this.yPosition + " for button id " + this.id + " and symbol " + this.symbol.getIdentifier());
 		}
+	}
+
+	private void drawScrollSymbol(int par1, int par2, int par3, int par4, int par5, int par6) {
+		float f = 0.065F;
+		float f1 = 0.065F;
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + par6), (double)this.zLevel, (double)((float)(par3 + 0) * f), (double)((float)(par4 + par6) * f1));
+		tessellator.addVertexWithUV((double)(par1 + par5), (double)(par2 + par6), (double)this.zLevel, (double)((float)(par3 + par5) * f), (double)((float)(par4 + par6) * f1));
+		tessellator.addVertexWithUV((double)(par1 + par5), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + par5) * f), (double)((float)(par4 + 0) * f1));
+		tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 0) * f), (double)((float)(par4 + 0) * f1));
+		tessellator.draw();
 	}
 }

@@ -1,6 +1,7 @@
 package incantations.incantation;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -20,6 +21,8 @@ public class IncantationSummon extends Incantation {
 	public IncantationSummon() {
 		super("summon");
 		//TODO complete list
+		summonableList.put("zombie", EntityZombie.class);
+		summonableList.put("skeleton", EntitySkeleton.class);
 		summonableList.put("zombie", EntityZombie.class);
 		summonableList.put("chicken", EntityChicken.class);
 		summonableList.put("pig", EntityPig.class);

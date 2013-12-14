@@ -35,8 +35,10 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 		NBTTagCompound tag = new NBTTagCompound();
 		if (this.itemScroll != null) this.itemScroll.writeToNBT(tag);
 		par1NBTTagCompound.setTag("itemScroll", tag);
+		tag = new NBTTagCompound();
 		if (this.itemResearchNotes != null) this.itemResearchNotes.writeToNBT(tag);
 		par1NBTTagCompound.setTag("itemResearchNotes", tag);
+		tag = new NBTTagCompound();
 		if (this.itemWritingTools != null) this.itemWritingTools.writeToNBT(tag);
 		par1NBTTagCompound.setTag("itemWritingTools", tag);
 	}
@@ -50,6 +52,7 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
 	}
 
@@ -60,31 +63,50 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		if (i == 1) return itemScroll;
-		else if (i == 2) return itemResearchNotes;
-		else if (i == 3) return itemWritingTools;
+		if (i == -1) return itemScroll;
+		else if (i == -2) return itemResearchNotes;
+		else if (i == -3) return itemWritingTools;
 		else return null;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		return null;
+		ItemStack itemStack = null;
+		if (j >= 1) {
+			if (i == -1) {
+				itemStack = itemScroll;
+				itemScroll = null;
+			}
+			if (i == -2) {
+				itemStack = itemResearchNotes;
+				itemResearchNotes = null;
+			}
+			if (i == -3) {
+				itemStack = itemWritingTools;
+				itemWritingTools = null;
+			}
+			if (i == -4) {
+				itemStack = itemWritingTools;
+				itemWritingTools = null;
+			}
+		}
+		return itemStack;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		if (i == 1) return itemScroll;
-		else if (i == 2) return itemResearchNotes;
-		else if (i == 3) return itemWritingTools;
+		if (i == -1) return itemScroll;
+		else if (i == -2) return itemResearchNotes;
+		else if (i == -3) return itemWritingTools;
 		else return null;
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		if (itemstack != null) {
-			if ((i == 1) && (itemstack.getItem() instanceof ItemScroll)) itemScroll = itemstack;
-			else if ((i == 2) && (itemstack.getItem() instanceof ItemResearchNotes)) itemResearchNotes = itemstack;
-			else if ((i == 3) && (itemstack.getItem() instanceof ItemWritingTools)) itemWritingTools = itemstack;
+			if ((i == -1) && (itemstack.getItem() instanceof ItemScroll)) itemScroll = itemstack;
+			else if ((i == -2) && (itemstack.getItem() instanceof ItemResearchNotes)) itemResearchNotes = itemstack;
+			else if ((i == -3) && (itemstack.getItem() instanceof ItemWritingTools)) itemWritingTools = itemstack;
 		}
 	}
 
@@ -120,6 +142,6 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		return (i == 1) && (itemstack.getItem() instanceof ItemScroll) || (i == 2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == 3) && (itemstack.getItem() instanceof ItemWritingTools);
+		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemWritingTools) || (i == -4) && (itemstack.getItem() instanceof ItemWritingTools);
 	}
 }

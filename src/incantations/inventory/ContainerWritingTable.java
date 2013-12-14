@@ -1,23 +1,22 @@
 package incantations.inventory;
 
+import incantations.tileentity.TileEntityWritingDesk;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import incantations.tileentity.TileEntityWritingDesk;
 
 public class ContainerWritingTable extends Container {
 
 	private TileEntityWritingDesk writingDesk;
-	private SlotWritingTable scrollItemSlot;
-	private SlotWritingTable researchNotesSlot;
 
 	public ContainerWritingTable(InventoryPlayer inventoryPlayer, TileEntityWritingDesk tileEntityWritingDesk) {
 		this.writingDesk = tileEntityWritingDesk;
 		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -1, 137, 11));
-		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -2, 137, 29));
-		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -3, 155, 29));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -2, 155, 11));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -3, 155, 41));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -4, 155, 97));
 
 		//Player Inventory
 		byte b0 = 8;
@@ -38,12 +37,25 @@ public class ContainerWritingTable extends Container {
 		return this.writingDesk.isUseableByPlayer(entityplayer);
 	}
 
-	//TODO
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotID) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot)this.inventorySlots.get(par2);
-		System.out.println(par2);
+		Slot slot = (Slot)this.inventorySlots.get(slotID);
+		if ((slot != null) && (slot.getHasStack())) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (slotID > -5 && slotID < 0) {
+				if (!this.mergeItemStack(itemstack1, 0, 37, false)) return null;
+			}
+			else if (slotID >= 0 && slotID < 37) {
+				//TODO fix
+				if (!this.mergeItemStack(itemstack1, -1, -4, false)) return null;
+			}
+			if (itemstack1.stackSize == 0) slot.putStack(null);
+			else slot.onSlotChanged();
+			if (itemstack1.stackSize == itemstack.stackSize) return null;
+			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+		}
 		return itemstack;
 	}
 }

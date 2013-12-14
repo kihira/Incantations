@@ -1,6 +1,6 @@
 package incantations.common;
 
-import incantations.gui.GuiWritingTable;
+import incantations.client.gui.GuiWritingTable;
 import cpw.mods.fml.common.network.IGuiHandler;
 import incantations.inventory.ContainerWritingTable;
 import net.minecraft.entity.player.EntityPlayer;
