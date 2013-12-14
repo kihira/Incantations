@@ -1,8 +1,8 @@
-package tileentity;
+package incantations.tileentity;
 
-import item.ItemResearchNotes;
-import item.ItemScroll;
-import item.ItemWritingTools;
+import incantations.item.ItemResearchNotes;
+import incantations.item.ItemScroll;
+import incantations.item.ItemWritingTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -22,11 +22,11 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 		NBTTagCompound tag = (NBTTagCompound) par1NBTTagCompound.getTag("itemScroll");
-		this.itemScroll = ItemStack.loadItemStackFromNBT(tag);
+		if (tag != null) this.itemScroll = ItemStack.loadItemStackFromNBT(tag);
 		tag = (NBTTagCompound) par1NBTTagCompound.getTag("itemResearchNotes");
-		this.itemResearchNotes = ItemStack.loadItemStackFromNBT(tag);
+		if (tag != null) this.itemResearchNotes = ItemStack.loadItemStackFromNBT(tag);
 		tag = (NBTTagCompound) par1NBTTagCompound.getTag("itemWritingTools");
-		this.itemWritingTools = ItemStack.loadItemStackFromNBT(tag);
+		if (tag != null) this.itemWritingTools = ItemStack.loadItemStackFromNBT(tag);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package common;
+package incantations.common;
 
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;

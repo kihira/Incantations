@@ -1,13 +1,13 @@
-package block;
+package incantations.block;
 
-import common.Incantations;
+import incantations.common.Incantations;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tileentity.TileEntityWritingDesk;
+import incantations.tileentity.TileEntityWritingDesk;
 
 public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	public BlockWritingDesk(int id) {

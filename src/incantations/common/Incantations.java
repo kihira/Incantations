@@ -1,14 +1,14 @@
-package common;
+package incantations.common;
 
-import block.BlockWritingDesk;
+import incantations.block.BlockWritingDesk;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import item.ItemResearchNotes;
-import item.ItemScroll;
-import tileentity.TileEntityWritingDesk;
+import incantations.item.ItemResearchNotes;
+import incantations.item.ItemScroll;
+import incantations.tileentity.TileEntityWritingDesk;
 
 @Mod(modid = "Incantations", name = "Incantations", version = "1.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)

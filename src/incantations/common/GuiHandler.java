@@ -1,12 +1,11 @@
-package common;
+package incantations.common;
 
-import client.gui.GuiWritingTable;
+import incantations.gui.GuiWritingTable;
 import cpw.mods.fml.common.network.IGuiHandler;
-import inventory.ContainerWritingTable;
+import incantations.inventory.ContainerWritingTable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tileentity.TileEntityWritingDesk;
+import incantations.tileentity.TileEntityWritingDesk;
 
 public class GuiHandler implements IGuiHandler {
 	@Override

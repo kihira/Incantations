@@ -1,4 +1,4 @@
-package common;
+package incantations.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 

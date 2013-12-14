@@ -1,4 +1,4 @@
-package util;
+package incantations.util;
 
 import sun.awt.Symbol;
 

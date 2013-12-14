@@ -1,7 +1,7 @@
-package inventory;
+package incantations.inventory;
 
-import item.ItemResearchNotes;
-import item.ItemScroll;
+import incantations.item.ItemResearchNotes;
+import incantations.item.ItemScroll;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

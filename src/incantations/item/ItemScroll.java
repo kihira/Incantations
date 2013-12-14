@@ -1,8 +1,7 @@
-package item;
+package incantations.item;
 
-import common.Incantations;
-import incantation.Incantation;
-import incantation.IncantationSummon;
+import incantations.common.Incantations;
+import incantations.incantation.IncantationSummon;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,7 +26,7 @@ public class ItemScroll extends Item {
 	public void getSubItems(int id, CreativeTabs creativeTabs, List list) {
 		ItemStack itemStack = new ItemStack(id, 1, 0);
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		nbtTagCompound.setString("incantation", "summon zombie");
+		nbtTagCompound.setString("incantations/incantation", "summon zombie");
 		itemStack.setTagCompound(nbtTagCompound);
 		list.add(new ItemStack(id, 1, 0));
 	}
@@ -57,7 +56,7 @@ public class ItemScroll extends Item {
 			if (itemStack.hasTagCompound()) {
 				NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
 				list.add("Incantation:");
-				list.add(nbtTagCompound.getString("incantation"));
+				list.add(nbtTagCompound.getString("incantations/incantation"));
 			}
 		}
 	}

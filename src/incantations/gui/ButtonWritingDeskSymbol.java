@@ -1,6 +1,6 @@
-package client.gui;
+package incantations.gui;
 
-import incantation.Symbol;
+import incantations.incantation.Symbol;
 import net.minecraft.client.gui.GuiButton;
 
 public class ButtonWritingDeskSymbol extends GuiButton {

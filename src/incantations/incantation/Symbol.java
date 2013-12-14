@@ -1,4 +1,4 @@
-package incantation;
+package incantations.incantation;
 
 import net.minecraft.util.ResourceLocation;
 

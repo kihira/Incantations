@@ -1,14 +1,14 @@
-package client.gui;
+package incantations.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import incantation.Symbol;
-import inventory.ContainerWritingTable;
+import incantations.incantation.Symbol;
+import incantations.inventory.ContainerWritingTable;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import tileentity.TileEntityWritingDesk;
+import incantations.tileentity.TileEntityWritingDesk;
 
 import java.util.ArrayList;
 import java.util.HashMap;

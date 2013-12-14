@@ -1,4 +1,4 @@
-package item;
+package incantations.item;
 
 import net.minecraft.item.Item;
 

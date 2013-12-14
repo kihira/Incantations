@@ -1,6 +1,6 @@
-package item;
+package incantations.item;
 
-import common.Incantations;
+import incantations.common.Incantations;
 import net.minecraft.item.Item;
 
 public class ItemResearchNotes extends Item {
