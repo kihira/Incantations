@@ -9,6 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import incantations.tileentity.TileEntityWritingDesk;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class GuiWritingTable extends GuiContainer {
 	public GuiWritingTable(InventoryPlayer inventoryPlayer, TileEntityWritingDesk tileEntityWritingDesk) {
 		super(new ContainerWritingTable(inventoryPlayer, tileEntityWritingDesk));
 		this.writingDesk = tileEntityWritingDesk;
-		this.xSize = 230;
+		this.xSize = 240;
 		this.ySize = 230;
 	}
 
@@ -61,6 +62,10 @@ public class GuiWritingTable extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.mc.getTextureManager().bindTexture(writingDeskTexture);
+		int x = (this.width - this.xSize) / 2;
+		int y = (this.height - this.ySize) / 2;
+		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 	}
 }

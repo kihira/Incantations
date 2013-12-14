@@ -105,7 +105,7 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return getDistanceFrom(entityplayer.posX, entityplayer.posY, entityplayer.posZ) < 5;
+		return getDistanceFrom(entityplayer.posX, entityplayer.posY, entityplayer.posZ) < 35;
 	}
 
 	@Override

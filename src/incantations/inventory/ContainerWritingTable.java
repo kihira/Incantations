@@ -15,12 +15,12 @@ public class ContainerWritingTable extends Container {
 
 	public ContainerWritingTable(InventoryPlayer inventoryPlayer, TileEntityWritingDesk tileEntityWritingDesk) {
 		this.writingDesk = tileEntityWritingDesk;
-		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, 0, 150, 150));
-		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, 1, 170, 170));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, 0, 137, 11));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, 1, 137, 29));
 
 		//Player Inventory
-		byte b0 = 36;
-		short short1 = 137;
+		byte b0 = 8;
+		short short1 = 146;
 		int i;
 		for (i = 0; i < 3; ++i){
 			for (int j = 0; j < 9; ++j) {

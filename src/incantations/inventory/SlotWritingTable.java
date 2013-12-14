@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class SlotWritingTable extends Slot {
 
-	public SlotWritingTable(IInventory par1IInventory, int par2, int par3, int par4) {
-		super(par1IInventory, par2, par3, par4);
+	public SlotWritingTable(IInventory par1IInventory, int index, int x, int y) {
+		super(par1IInventory, index, x, y);
 	}
 
 	public boolean isItemValid(ItemStack par1ItemStack) {
