@@ -32,6 +32,10 @@ public class ContainerWritingTable extends Container {
 		}
 	}
 
+	public TileEntityWritingDesk getWritingDesk() {
+		return writingDesk;
+	}
+
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return this.writingDesk.isUseableByPlayer(entityplayer);

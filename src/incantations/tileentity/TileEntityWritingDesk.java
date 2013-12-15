@@ -104,10 +104,11 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		if (itemstack != null) {
-			if ((i == -1) && (itemstack.getItem() instanceof ItemScroll)) itemScroll = itemstack;
-			else if ((i == -2) && (itemstack.getItem() instanceof ItemResearchNotes)) itemResearchNotes = itemstack;
-			else if ((i == -3) && (itemstack.getItem() instanceof ItemWritingTools)) itemWritingTools = itemstack;
+			if ((i == -1) && (itemstack.getItem() instanceof ItemScroll)) this.itemScroll = itemstack;
+			else if ((i == -2) && (itemstack.getItem() instanceof ItemResearchNotes)) this.itemResearchNotes = itemstack;
+			else if ((i == -3) && (itemstack.getItem() instanceof ItemWritingTools)) this.itemWritingTools = itemstack;
 		}
+		System.out.println(itemstack);
 	}
 
 	@Override

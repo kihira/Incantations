@@ -8,6 +8,7 @@ public class Symbol {
 
 	private ResourceLocation symbolTexture;
 	private String identifier;
+	private String translated;
 
 	public static final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
 
@@ -22,6 +23,14 @@ public class Symbol {
 
 	public String getIdentifier() {
 		return identifier;
+	}
+
+	public String getTranslation() {
+		return translated;
+	}
+
+	public String setTranslation() {
+		return translated;
 	}
 
 	public ResourceLocation getTexture() {

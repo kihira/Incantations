@@ -23,10 +23,10 @@ public class LanguageUtil {
 	}
 
 	public static ItemStack writeScroll(String incantation) {
-		ItemStack itemStack = new ItemStack(Incantations.config.scrollItemID, 1, 0);
+		ItemStack itemStack = new ItemStack(Incantations.itemScroll);
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		tagCompound.setString("incantation", incantation);
-		itemStack.writeToNBT(tagCompound);
+		itemStack.setTagCompound(tagCompound);
 		return itemStack;
 	}
 }

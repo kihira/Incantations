@@ -10,6 +10,8 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 import incantations.tileentity.TileEntityWritingDesk;
@@ -26,6 +28,7 @@ public class GuiWritingTable extends GuiContainer {
 
 	private final TileEntityWritingDesk writingDesk;
 	private short scrollAmount;
+	private boolean hasScroll = false;
 	private static final ResourceLocation writingDeskTexture = new ResourceLocation("incantations", "textures/gui/container/writingdesk.png");
 
 	private final HashMap<Integer, Symbol> symbolButtonMap = new HashMap<Integer, Symbol>();
@@ -43,9 +46,9 @@ public class GuiWritingTable extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		int i = 0;
-		symbolButtonMap.clear();
+		this.symbolButtonMap.clear();
 		for (Map.Entry<String, Symbol> entry:Symbol.symbolMap.entrySet()) {
-			symbolButtonMap.put(i, entry.getValue());
+			this.symbolButtonMap.put(i, entry.getValue());
 			if (i <= 13) {
 				//if even, draw to the left hand side
 				if (i % 2 == 0) this.buttonList.add(new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 5 + (i * 9), 20, 20));
@@ -61,25 +64,31 @@ public class GuiWritingTable extends GuiContainer {
 		this.buttonList.add(new ButtonWritingDeskScroll(this, -1, this.guiLeft + 177, this.guiTop, 177, 0, 30, 5));
 		//TODO Fix this button
 		//this.buttonList.add(new ButtonWritingDeskScroll(this, -2, this.guiLeft + 177, this.guiTop + 150, 177, 150, 30, 2));
+		//Clear the contents as this method is called on window rescale as well to prevent render duping
+		this.scrollContentsArray.clear();
+		//Loads the symbols
+		loadScrollData();
 	}
 
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
-		//Render symbols on the scroll
-		//Down
-		boolean flag = false;
-		for (int k = 0; k < 10; k++) {
-			//Across
-			for (int i = 0; i < 11; i++) {
-				if (scrollContentsArray.size() <= (i + (k * 10)))  {
-					flag = true;
-					break;
-				}
-				Symbol symbol = Symbol.symbolMap.get(scrollContentsArray.get(i + (k * 10)));
-				Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
-				this.drawScrollSymbol(this.guiLeft + 11 + (i * 10), this.guiTop + 16 + (k * 10), 0, 0, 12, 12);
+		if (this.writingDesk.getStackInSlot(-1) == null) this.scrollContentsArray.clear();
+		else if (this.writingDesk.getStackInSlot(-1) != null && !hasScroll) loadScrollData();
+		this.drawScroll();
+	}
+
+	private void loadScrollData() {
+		ItemStack itemStack = this.writingDesk.getStackInSlot(-1);
+		if ((itemStack != null) && (itemStack.hasTagCompound())) {
+			hasScroll = true;
+			NBTTagCompound tagCompound = itemStack.getTagCompound();
+			String incantation = tagCompound.getString("incantation");
+			String[] characters = incantation.split("|");
+			for (int i = 0; i < characters.length; i++) {
+				if (characters[i] != null) this.scrollContentsArray.add(characters[i]);
+				//System.out.println("Loaded the character " + characters[i] + " from scroll");
 			}
-			if (flag) break;
+			drawScroll();
 		}
 	}
 
@@ -113,7 +122,26 @@ public class GuiWritingTable extends GuiContainer {
 		return s;
 	}
 
-	//TODO Draws the symbols on the scrolls
+	private void drawScroll() {
+		//Down
+		boolean flag = false;
+		for (int k = 0; k < 10; k++) {
+			//Across
+			for (int i = 0; i < 11; i++) {
+				if (this.scrollContentsArray.size() <= (i + (k * 10)))  {
+					flag = true;
+					break;
+				}
+				Symbol symbol = Symbol.symbolMap.get(this.scrollContentsArray.get(i + (k * 10)));
+				if (symbol != null) {
+					Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
+					this.drawScrollSymbol(this.guiLeft + 11 + (i * 10), this.guiTop + 16 + (k * 10), 0, 0, 12, 12);
+				}
+			}
+			if (flag) break;
+		}
+	}
+
 	private void drawScrollSymbol(int par1, int par2, int par3, int par4, int par5, int par6) {
 		float f = 0.08F;
 		float f1 = 0.08F;

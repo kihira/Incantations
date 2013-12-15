@@ -26,7 +26,7 @@ public class ItemScroll extends Item {
 	public void getSubItems(int id, CreativeTabs creativeTabs, List list) {
 		ItemStack itemStack = new ItemStack(id, 1, 0);
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		nbtTagCompound.setString("incantations/incantation", "summon zombie");
+		nbtTagCompound.setString("incantation", "summon zombie");
 		itemStack.setTagCompound(nbtTagCompound);
 		list.add(new ItemStack(id, 1, 0));
 	}
@@ -43,21 +43,22 @@ public class ItemScroll extends Item {
 		return 72000;
 	}
 
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-		if (!par2World.isRemote) {
-			IncantationSummon incantationSummon = new IncantationSummon();
-			incantationSummon.doIncantation("summon zombie fast", par3EntityPlayer);
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+		if (!world.isRemote) {
+			if (itemStack.hasTagCompound()) {
+				NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+				String incantation = nbtTagCompound.getString("incantation");
+				System.out.println(incantation);
+			}
 		}
-		return par1ItemStack;
+		return itemStack;
 	}
 
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-	 	if (entityPlayer.capabilities.isCreativeMode) {
-			if (itemStack.hasTagCompound()) {
-				NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
-				list.add("Incantation:");
-				list.add(nbtTagCompound.getString("incantations/incantation"));
-			}
+		if (itemStack.hasTagCompound()) {
+			NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+			list.add("Incantation:");
+			list.add(nbtTagCompound.getString("incantation"));
 		}
 	}
 }

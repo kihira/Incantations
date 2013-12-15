@@ -24,8 +24,11 @@ public class PacketHandlerServer implements IPacketHandler {
 			try {
 				ContainerWritingTable writingTable = (ContainerWritingTable) entityPlayer.openContainer;
 				Slot slot = writingTable.getSlot(0);
-				ItemStack itemStack = LanguageUtil.writeScroll(inputStream.readUTF());
+				String incantation = inputStream.readUTF();
+				ItemStack itemStack = LanguageUtil.writeScroll(incantation);
 				slot.putStack(itemStack);
+				writingTable.getWritingDesk().onInventoryChanged();
+				System.out.println(itemStack.getTagCompound().toString());
 				System.out.println("Updated scroll server side");
 			}
 			catch (Exception e) {
