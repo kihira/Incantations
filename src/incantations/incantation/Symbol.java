@@ -9,6 +9,9 @@ public class Symbol {
 	private ResourceLocation symbolTexture;
 	private String identifier;
 	private String translated;
+	private short width = 10;
+	private int uPos = 0;
+	private int vPos = 0;
 
 	public static final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
 
@@ -29,11 +32,35 @@ public class Symbol {
 		return translated;
 	}
 
-	public String setTranslation() {
-		return translated;
+	public Symbol setTranslation(String translation) {
+		translated = translation;
+		return this;
 	}
 
 	public ResourceLocation getTexture() {
 		return symbolTexture;
+	}
+
+	public Symbol setWidth(int newWidth) {
+		width = (short) newWidth;
+		return this;
+	}
+
+	public short getWidth() {
+		return width;
+	}
+
+	public Symbol setUV(int uPos, int vPos) {
+		this.uPos = uPos;
+		this.vPos = vPos;
+		return this;
+	}
+
+	public int getU() {
+		return uPos;
+	}
+
+	public int getV() {
+		return vPos;
 	}
 }

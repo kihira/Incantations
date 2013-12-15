@@ -34,24 +34,22 @@ public class IncantationSummon extends Incantation {
 		summonableList.put("sheep", EntitySheep.class);
 		summonableList.put("cow", EntityCow.class);
 
-		incantationList.put("zombie", "long gone still lingering nearby body dying soul alive i now command you to rise from the grave");
-		incantationList.put("burning zombie", "the sun shines burning the lands the dead alive rise from the grave to bathe in the rays of light");
-		incantationList.put("skeleton", "ancient bones cracked and fragile soldier of old i now command you to rise from the grave");
-		incantationList.put("creeper", "sulphur and nitrate timed charge malformed pig stalking death i summon you here");
+		incantationList.put("endroquer", "senth tiled, calter hestitalet nestol, licham mortet, savis viseris, ai poselis nu tes ta elemar af le mortular.");
+		incantationList.put("endroquer tooret", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
+		incantationList.put("tooret endroquer", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
+		incantationList.put("kaskal", "kask martes, kraskt ren metir, waskor at mart, ai poselis nu tes ta elemar af le mortular.");
+		incantationList.put("xyzaah'il", "salmec ren nostrinum, mesuid faset, destolix posk'ilar, itrelet mortu, ai ah'zivuud tes oy.");
 		incantationList.put("dragon", "wings as black as the night eyes a fierce purple scales as hard as diamonds to which no one prevails flying fast through the air breaking mountains towns cities Ruining lives and generations fowl beast of the sky I call you here to a challenge fight me now");
-		incantationList.put("slime", "soft and green sticky and foul animated life i summon you here");
+		incantationList.put("saklida'es", "fehah ren cregret, quelanuil ren purtin, motspu'renah vis'muh, ai ah'zivuud tes oy.");
 		incantationList.put("chicken", "unable to fly feathers so soft eggs all around oh feathered god hear my plea");
 		incantationList.put("cow", "skin of leather food for days milking the riches out of this beast");
 		incantationList.put("sheep", "wool so soft so light so fluffy i am sleeping tight tonight");
-
-		descriptorList.add("burning");
-		descriptorList.add("fast");
 	}
 
 	@Override
 	public boolean isValidIncantation(String incantation) {
-		String[] strings = incantation.split(" ");
-		return (incantationList.containsKey(strings[1])) && (incantationList.get(strings[1]).equals(incantation));
+		String[] strings = incantation.split("⏎");
+		return (incantationList.containsKey("ah'zivuud " + strings[0])) && (incantationList.get(strings[1]).equals(incantation));
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import incantations.incantation.Symbol;
 import incantations.inventory.ContainerWritingTable;
+import incantations.util.LanguageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -68,15 +69,14 @@ public class GuiWritingTable extends GuiContainer {
 		this.scrollContentsArray.clear();
 		//Loads the symbols
 		this.loadScrollData();
+		LanguageUtil.loadTranslationList();
 	}
 
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
-		if (this.writingDesk.getStackInSlot(-1) == null) {
-			this.scrollContentsArray.clear();
-			hasScroll = false;
-		}
-		else if (this.writingDesk.getStackInSlot(-1) != null && !hasScroll) this.loadScrollData();
+		//Reload the data each screen draw to prevent dupe renders
+		this.scrollContentsArray.clear();
+		if (this.writingDesk.getStackInSlot(-1) != null) this.loadScrollData();
 		this.drawScroll();
 	}
 
@@ -86,7 +86,7 @@ public class GuiWritingTable extends GuiContainer {
 			hasScroll = true;
 			NBTTagCompound tagCompound = itemStack.getTagCompound();
 			String incantation = tagCompound.getString("incantation");
-			String[] characters = incantation.split("");
+			String[] characters = incantation.split("¦");
 			for (String character : characters) {
 				if (character != null) this.scrollContentsArray.add(character);
 			}
@@ -97,19 +97,16 @@ public class GuiWritingTable extends GuiContainer {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (this.symbolButtonMap.containsKey(guiButton.id)) {
 			if (this.scrollContentsArray.size() >= 90) return;
-			//Check the writing tools
-			if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null)) {
+			//Check we have all needed equipment
+			if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
 				this.writingDesk.onInventoryChanged();
 				this.scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
-				double offset = Math.ceil(this.scrollContentsArray.size() / 14F) * 11;
-				Symbol symbol = this.symbolButtonMap.get(guiButton.id);
-				Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
-				this.drawScrollSymbol(this.guiLeft + 11 + ((this.scrollContentsArray.size() % 14) * 10), this.guiTop + 15 + (int)offset, 0, 0, 12, 12);
 
 				//Send scroll data to server
 				ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 				DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 				try {
+					System.out.println(this.scrollContentsArray);
 					dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
 					this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
 				}
@@ -187,33 +184,35 @@ public class GuiWritingTable extends GuiContainer {
 	}
 
 	private String makeIncantationString(ArrayList<String> incantationList) {
-		String s = null;
+		StringBuilder sb = new StringBuilder();
 		for (String character:incantationList) {
-			s += character;
+			sb.append(character);
+			sb.append("¦");
 		}
-		return s;
+		return sb.toString();
 	}
 
 	private void drawScroll() {
-		//Down
-		boolean flag = false;
-		for (int k = 0; k < 10; k++) {
-			//Across
-			for (int i = 0; i < 11; i++) {
-				if (this.scrollContentsArray.size() <= (i + (k * 10)))  {
-					flag = true;
-					break;
+		int line = 0;
+		int currentWidth = 0;
+		int maxWidth = 100;
+		for (int i = 0; i < scrollContentsArray.size(); i++) {
+			Symbol symbol = Symbol.symbolMap.get(this.scrollContentsArray.get(i));
+			if (symbol != null) {
+				if (symbol.getIdentifier().equals("⏎")) {
+					line++;
+					currentWidth = 0;
 				}
-				Symbol symbol = Symbol.symbolMap.get(this.scrollContentsArray.get(i + (k * 10)));
-				if (symbol != null)  {
-					if (symbol.getIdentifier().equals("⏎")) break;
-					if (symbol.getTexture() != null) {
-						Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
-						this.drawScrollSymbol(this.guiLeft + 11 + (i * 10), this.guiTop + 16 + (k * 10), 0, 0, 12, 12);
+				else if (symbol.getTexture() != null) {
+					if ((currentWidth + symbol.getWidth() > maxWidth)) {
+						line++;
+						currentWidth = symbol.getWidth();
 					}
+					else currentWidth += symbol.getWidth();
+					Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
+					this.drawScrollSymbol(this.guiLeft + 11 + currentWidth, this.guiTop + 16 + (line * 11), symbol.getU(), symbol.getV(), 12, 12);
 				}
 			}
-			if (flag) break;
 		}
 	}
 
