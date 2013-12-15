@@ -1,6 +1,7 @@
 package incantations.common;
 
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -13,6 +14,7 @@ import incantations.item.ItemScroll;
 import incantations.item.ItemInkVial;
 import incantations.network.PacketHandlerClient;
 import incantations.network.PacketHandlerServer;
+import incantations.proxy.ProxyCommon;
 import incantations.tileentity.TileEntityWritingDesk;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,6 +35,9 @@ public class Incantations {
 	private static ItemQuill itemQuill;
 	private static BlockWritingDesk blockWritingDesk;
 
+	@SidedProxy(clientSide = "incantations.proxy.ProxyClient", serverSide = "incantations.proxy.ProxyCommon")
+	public static ProxyCommon proxy;
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		config = new Config(e.getSuggestedConfigurationFile());
@@ -51,6 +56,7 @@ public class Incantations {
 		GameRegistry.registerTileEntity(TileEntityWritingDesk.class, "tileEntityWritingDesk");
 		NetworkRegistry.instance().registerGuiHandler(instance, guiHandler);
 		registerSymbols();
+		proxy.registerRenderers();
 	}
 
 	private void registerSymbols() {
