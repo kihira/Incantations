@@ -205,9 +205,12 @@ public class GuiWritingTable extends GuiContainer {
 					break;
 				}
 				Symbol symbol = Symbol.symbolMap.get(this.scrollContentsArray.get(i + (k * 10)));
-				if (symbol != null) {
-					Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
-					this.drawScrollSymbol(this.guiLeft + 11 + (i * 10), this.guiTop + 16 + (k * 10), 0, 0, 12, 12);
+				if (symbol != null)  {
+					if (symbol.getIdentifier().equals("⏎")) break;
+					if (symbol.getTexture() != null) {
+						Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
+						this.drawScrollSymbol(this.guiLeft + 11 + (i * 10), this.guiTop + 16 + (k * 10), 0, 0, 12, 12);
+					}
 				}
 			}
 			if (flag) break;

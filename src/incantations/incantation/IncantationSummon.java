@@ -1,11 +1,15 @@
 package incantations.incantation;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -16,35 +20,38 @@ import java.util.HashMap;
 public class IncantationSummon extends Incantation {
 
 	private HashMap<String, Class> summonableList = new HashMap<String, Class>();
+	private HashMap<String, String> incantationList = new HashMap<String, String>();
 	private ArrayList<String> descriptorList = new ArrayList<String>();
 
 	public IncantationSummon() {
 		super("summon");
-		//TODO complete list
 		summonableList.put("zombie", EntityZombie.class);
 		summonableList.put("skeleton", EntitySkeleton.class);
-		summonableList.put("zombie", EntityZombie.class);
+		summonableList.put("creeper", EntityCreeper.class);
+		summonableList.put("dragon", EntityDragon.class);
+		summonableList.put("slime", EntitySlime.class);
 		summonableList.put("chicken", EntityChicken.class);
-		summonableList.put("pig", EntityPig.class);
+		summonableList.put("sheep", EntitySheep.class);
 		summonableList.put("cow", EntityCow.class);
+
+		incantationList.put("zombie", "long gone still lingering nearby body dying soul alive i now command you to rise from the grave");
+		incantationList.put("burning zombie", "the sun shines burning the lands the dead alive rise from the grave to bathe in the rays of light");
+		incantationList.put("skeleton", "ancient bones cracked and fragile soldier of old i now command you to rise from the grave");
+		incantationList.put("creeper", "sulphur and nitrate timed charge malformed pig stalking death i summon you here");
+		incantationList.put("dragon", "wings as black as the night eyes a fierce purple scales as hard as diamonds to which no one prevails flying fast through the air breaking mountains towns cities Ruining lives and generations fowl beast of the sky I call you here to a challenge fight me now");
+		incantationList.put("slime", "soft and green sticky and foul animated life i summon you here");
+		incantationList.put("chicken", "unable to fly feathers so soft eggs all around oh feathered god hear my plea");
+		incantationList.put("cow", "skin of leather food for days milking the riches out of this beast");
+		incantationList.put("sheep", "wool so soft so light so fluffy i am sleeping tight tonight");
 
 		descriptorList.add("burning");
 		descriptorList.add("fast");
 	}
 
 	@Override
-	public int isValidIncantation(String incantation) {
+	public boolean isValidIncantation(String incantation) {
 		String[] strings = incantation.split(" ");
-		int validWordCount = 0;
-		for (int i = 1; i <= strings.length; i++) {
-			if (i == 1) {
-				if (matchesSummonable(strings[i])) validWordCount++;
-			}
-			else {
-				if (matchesDescriptor(strings[i])) validWordCount++;
-			}
-		}
-		return validWordCount;
+		return (incantationList.containsKey(strings[1])) && (incantationList.get(strings[1]).equals(incantation));
 	}
 
 	@Override

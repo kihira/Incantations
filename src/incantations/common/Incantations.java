@@ -60,12 +60,13 @@ public class Incantations {
 	}
 
 	private void registerSymbols() {
-		String[] alphabet = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "};
+		String[] alphabet = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "nu-", "-er", "-es", "-ed", "-et"};
 		for (int i = 1; i <= alphabet.length; i++) {
 			ResourceLocation resourceLocation = new ResourceLocation("incantations", "textures/gui/symbols/symbol" + i + ".png");
 			new Symbol(alphabet[i-1], resourceLocation);
 			System.out.println("Mapped the English character \"" + alphabet[i-1] + "\" to the symbol \"symbol" + i + "\"");
 		}
+		new Symbol("⏎", null);
 	}
 
 	private void registerCraftingRecipes() {

@@ -26,7 +26,6 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
 		if (this.drawButton) {
-			//System.out.println("Drawing button" + this.id);
 			par1Minecraft.getTextureManager().bindTexture(buttonTextures);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.field_82253_i = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
@@ -35,14 +34,16 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 			this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 			this.mouseDragged(par1Minecraft, par2, par3);
 
-			//TODO keep all textures in same file?
-			par1Minecraft.getTextureManager().bindTexture(symbol.getTexture());
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			//this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.height, this.width);
-			this.drawScrollSymbol(this.xPosition + 2, this.yPosition + 2, 0, 0, 15, 15);
-			GL11.glDisable(GL11.GL_BLEND);
-			//System.out.println("Drawing a symbol at " + this.xPosition + " " + this.yPosition + " for button id " + this.id + " and symbol " + this.symbol.getIdentifier());
+			if (symbol.getTexture() != null) {
+				par1Minecraft.getTextureManager().bindTexture(symbol.getTexture());
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				this.drawScrollSymbol(this.xPosition + 2, this.yPosition + 2, 0, 0, 15, 15);
+				GL11.glDisable(GL11.GL_BLEND);
+			}
+			else {
+				this.drawCenteredString(par1Minecraft.fontRenderer, "§0" + this.symbol.getIdentifier(), this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, 16777120);
+			}
 		}
 	}
 

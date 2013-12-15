@@ -10,7 +10,7 @@ public abstract class Incantation {
 
 	/***
 	 * Create a new instance of this for each incantations.incantation. The word should be the first word of the scroll.
-	 * TODO Make it so incantations.incantation words don't have to be the first word of a scroll. Possible issue with collisions though
+	 * TODO Make it so incantation words don't have to be the first word of a scroll. Possible issue with collisions though
 	 * @param word
 	 */
 	public Incantation(String word) {
@@ -26,7 +26,7 @@ public abstract class Incantation {
 	 * @param incantation The incantations.incantation to be checked
 	 * @return What word count the incantations.incantation is valid
 	 */
-	public abstract int isValidIncantation(String incantation);
+	public abstract boolean isValidIncantation(String incantation);
 
 	/***
 	 * When the scroll has finished being casted/read, this is called.
