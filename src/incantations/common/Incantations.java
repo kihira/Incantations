@@ -9,6 +9,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import incantations.incantation.Symbol;
 import incantations.item.ItemResearchNotes;
 import incantations.item.ItemScroll;
+import incantations.network.PacketHandlerClient;
+import incantations.network.PacketHandlerServer;
 import incantations.tileentity.TileEntityWritingDesk;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.ResourceManager;
@@ -17,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import java.io.File;
 
 @Mod(modid = "Incantations", name = "Incantations", version = "1.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(clientPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = {"INC|WritingDesk"}, packetHandler = PacketHandlerClient.class), serverPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = {"INC|WritingDesk"}, packetHandler = PacketHandlerServer.class), clientSideRequired = true, serverSideRequired = false)
 public class Incantations {
 
 	@Mod.Instance(value = "Incantations")

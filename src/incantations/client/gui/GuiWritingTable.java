@@ -10,10 +10,13 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 import incantations.tileentity.TileEntityWritingDesk;
 import org.lwjgl.opengl.GL11;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +26,6 @@ public class GuiWritingTable extends GuiContainer {
 
 	private final TileEntityWritingDesk writingDesk;
 	private short scrollAmount;
-	private short symbolCount = 0;
 	private static final ResourceLocation writingDeskTexture = new ResourceLocation("incantations", "textures/gui/container/writingdesk.png");
 
 	private final HashMap<Integer, Symbol> symbolButtonMap = new HashMap<Integer, Symbol>();
@@ -79,18 +81,36 @@ public class GuiWritingTable extends GuiContainer {
 			}
 			if (flag) break;
 		}
-		symbolCount = (short)scrollContentsArray.size();
 	}
 
 	protected void actionPerformed(GuiButton guiButton) {
-		if (symbolButtonMap.containsKey(guiButton.id)) {
-			if (scrollContentsArray.size() >= 110) return;
-			scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
-			double offset = Math.ceil(scrollContentsArray.size() / 14F) * 10;
-			Symbol symbol = symbolButtonMap.get(guiButton.id);
+		if (this.symbolButtonMap.containsKey(guiButton.id)) {
+			if (this.scrollContentsArray.size() >= 110) return;
+			this.scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
+			double offset = Math.ceil(this.scrollContentsArray.size() / 14F) * 10;
+			Symbol symbol = this.symbolButtonMap.get(guiButton.id);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
-			this.drawScrollSymbol(this.guiLeft + 11 + ((scrollContentsArray.size() % 14) * 10), this.guiTop + 15 + (int)offset, 0, 0, 12, 12);
+			this.drawScrollSymbol(this.guiLeft + 11 + ((this.scrollContentsArray.size() % 14) * 10), this.guiTop + 15 + (int)offset, 0, 0, 12, 12);
+
+			//Send scroll data to server
+			ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+			DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
+			try {
+				dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
+				this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+	private String makeIncantationString(ArrayList<String> incantationList) {
+		String s = "";
+		for (String character:incantationList) {
+			s += character;
+		}
+		return s;
 	}
 
 	//TODO Draws the symbols on the scrolls
