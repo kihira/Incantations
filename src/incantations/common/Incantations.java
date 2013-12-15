@@ -7,9 +7,10 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import incantations.block.BlockWritingDesk;
 import incantations.incantation.Symbol;
+import incantations.item.ItemQuill;
 import incantations.item.ItemResearchNotes;
 import incantations.item.ItemScroll;
-import incantations.item.ItemWritingTools;
+import incantations.item.ItemInkVial;
 import incantations.network.PacketHandlerClient;
 import incantations.network.PacketHandlerServer;
 import incantations.tileentity.TileEntityWritingDesk;
@@ -28,7 +29,8 @@ public class Incantations {
 
 	public static ItemScroll itemScroll;
 	private static ItemResearchNotes itemResearchNotes;
-	private static ItemWritingTools itemWritingTools;
+	private static ItemInkVial itemInkVial;
+	private static ItemQuill itemQuill;
 	private static BlockWritingDesk blockWritingDesk;
 
 	@Mod.EventHandler
@@ -39,8 +41,10 @@ public class Incantations {
 		GameRegistry.registerItem(itemScroll, "itemScroll");
 		itemResearchNotes = new ItemResearchNotes(config.researchNotesID);
 		GameRegistry.registerItem(itemResearchNotes, "itemResearchNotes");
-		itemWritingTools = new ItemWritingTools(config.inkVialItemID);
-		GameRegistry.registerItem(itemWritingTools, "itemWritingTools");
+		itemInkVial = new ItemInkVial(config.inkVialItemID);
+		GameRegistry.registerItem(itemInkVial, "itemInkVial");
+		itemQuill = new ItemQuill(config.quillItemID);
+		GameRegistry.registerItem(itemQuill, "itemQuill");
 		blockWritingDesk = new BlockWritingDesk(config.writingDeskID);
 		GameRegistry.registerBlock(blockWritingDesk, "blockWritingDesk");
 

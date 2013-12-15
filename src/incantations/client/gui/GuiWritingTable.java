@@ -53,17 +53,17 @@ public class GuiWritingTable extends GuiContainer {
 				//if even, draw to the left hand side
 				if (i % 2 == 0) this.buttonList.add(new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 5 + (i * 9), 20, 20));
 				else this.buttonList.add(new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 196, this.guiTop + 5 + ((i - 1) * 9), 20, 20));
+				//System.out.println("Moved button to " + (this.guiLeft + 177) + ", " + (this.guiTop + 5 + (i * 9)));
 			}
 			else {
-				ButtonWritingDeskSymbol buttonWritingDeskSymbol = new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 200, 15, 15);
+				ButtonWritingDeskSymbol buttonWritingDeskSymbol = new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 200, 20, 20);
 				buttonWritingDeskSymbol.drawButton = false;
 				this.buttonList.add(buttonWritingDeskSymbol);
 			}
 			i++;
 		}
 		this.buttonList.add(new ButtonWritingDeskScroll(this, -1, this.guiLeft + 177, this.guiTop, 177, 0, 30, 5));
-		//TODO Fix this button
-		//this.buttonList.add(new ButtonWritingDeskScroll(this, -2, this.guiLeft + 177, this.guiTop + 150, 177, 150, 30, 2));
+		this.buttonList.add(new ButtonWritingDeskScroll(this, -2, this.guiLeft + 177, this.guiTop + 134, 177, 134, 30, 5));
 		//Clear the contents as this method is called on window rescale as well to prevent render duping
 		this.scrollContentsArray.clear();
 		//Loads the symbols
@@ -72,7 +72,10 @@ public class GuiWritingTable extends GuiContainer {
 
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
-		if (this.writingDesk.getStackInSlot(-1) == null) this.scrollContentsArray.clear();
+		if (this.writingDesk.getStackInSlot(-1) == null) {
+			this.scrollContentsArray.clear();
+			hasScroll = false;
+		}
 		else if (this.writingDesk.getStackInSlot(-1) != null && !hasScroll) this.loadScrollData();
 		this.drawScroll();
 	}
@@ -94,9 +97,8 @@ public class GuiWritingTable extends GuiContainer {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (this.symbolButtonMap.containsKey(guiButton.id)) {
 			if (this.scrollContentsArray.size() >= 90) return;
-			//Check the writing tools and damage them
-			ItemStack writingTools = this.writingDesk.getStackInSlot(-3);
-			if (writingTools != null) {
+			//Check the writing tools
+			if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null)) {
 				this.writingDesk.onInventoryChanged();
 				this.scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
 				double offset = Math.ceil(this.scrollContentsArray.size() / 14F) * 11;
@@ -113,6 +115,72 @@ public class GuiWritingTable extends GuiContainer {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
+				}
+			}
+		}
+		//If scroll button is hit, scroooooooooll
+		else if (guiButton.id == -2) {
+			if (scrollAmount < 10) {
+				scrollAmount++;
+				int j = 0;
+				for (Object object:this.buttonList) {
+					if (j > (13 + (scrollAmount * 2))) break;
+					GuiButton button = (GuiButton) object;
+					if (button instanceof ButtonWritingDeskSymbol) {
+						if (button.id <= ((scrollAmount * 2) - 1)) {
+							//Hide and disable the button as we have scrolled past it
+							button.drawButton = false;
+							button.enabled = false;
+							button.yPosition = 1;
+							button.xPosition = 500;
+						}
+						else {
+							button.drawButton = true;
+							button.enabled = true;
+							if (j % 2 == 0) {
+								button.xPosition = this.guiLeft + 177;
+								button.yPosition = this.guiTop + 5 + ((j - (scrollAmount * 2)) * 9);
+							}
+							else {
+								button.xPosition = this.guiLeft + 196;
+								button.yPosition = this.guiTop + 5 + (((j - (scrollAmount * 2)) - 1) * 9);
+							}
+						}
+					}
+					j++;
+				}
+			}
+		}
+		//Scroll up
+		else if (guiButton.id == -1) {
+			if (scrollAmount > 0) {
+				scrollAmount--;
+				int j = 0;
+				for (Object object:this.buttonList) {
+					if (j > (15 + (scrollAmount * 2))) break;
+					GuiButton button = (GuiButton) object;
+					if (button instanceof ButtonWritingDeskSymbol) {
+						if (button.id >= (15 + ((scrollAmount * 2) - 1))) {
+							//Hide and disable the button as we have scrolled past it
+							button.drawButton = false;
+							button.enabled = false;
+							button.yPosition = 1;
+							button.xPosition = 500;
+						}
+						else {
+							button.drawButton = true;
+							button.enabled = true;
+							if (j % 2 == 0) {
+								button.xPosition = this.guiLeft + 177;
+								button.yPosition = this.guiTop + 5 + ((j - (scrollAmount * 2)) * 9);
+							}
+							else {
+								button.xPosition = this.guiLeft + 196;
+								button.yPosition = this.guiTop + 5 + (((j - (scrollAmount * 2)) - 1) * 9);
+							}
+						}
+					}
+					j++;
 				}
 			}
 		}

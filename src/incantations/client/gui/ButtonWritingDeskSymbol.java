@@ -26,6 +26,7 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
 		if (this.drawButton) {
+			//System.out.println("Drawing button" + this.id);
 			par1Minecraft.getTextureManager().bindTexture(buttonTextures);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.field_82253_i = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;

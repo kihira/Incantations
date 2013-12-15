@@ -59,6 +59,15 @@ public class PacketHandlerServer implements IPacketHandler {
 						slot.putStack(itemStack);
 					}
 				}
+				slot = writingTable.getSlot(4); //Quill
+				itemStack = slot.getStack();
+				if (itemStack != null) {
+					if (itemStack.getItemDamage() >= itemStack.getMaxDamage()) slot.putStack(null);
+					else {
+						itemStack.setItemDamage(itemStack.getItemDamage()+1);
+						slot.putStack(itemStack);
+					}
+				}
 				writingTable.getWritingDesk().onInventoryChanged();
 			}
 			catch (Exception e) {

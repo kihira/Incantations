@@ -17,6 +17,7 @@ public class ContainerWritingTable extends Container {
 		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -2, 155, 11));
 		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -3, 155, 41));
 		this.addSlotToContainer(new Slot(tileEntityWritingDesk, -4, 155, 97));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -5, 137, 41));
 
 		//Player Inventory
 		byte b0 = 8;

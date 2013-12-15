@@ -16,6 +16,7 @@ public class ItemScroll extends Item {
 	public ItemScroll(int par1) {
 		super(par1);
 		setUnlocalizedName("scroll");
+		setTextureName("incantations:scroll");
 		setMaxStackSize(1);
 		setMaxDamage(1);
 		setNoRepair();
