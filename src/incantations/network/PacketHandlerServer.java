@@ -7,7 +7,10 @@ import incantations.util.LanguageUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
@@ -25,11 +28,38 @@ public class PacketHandlerServer implements IPacketHandler {
 				ContainerWritingTable writingTable = (ContainerWritingTable) entityPlayer.openContainer;
 				Slot slot = writingTable.getSlot(0);
 				String incantation = inputStream.readUTF();
-				ItemStack itemStack = LanguageUtil.writeScroll(incantation);
+				//Get current modifier on scroll
+				int modifier = 0;
+				if (slot.getHasStack()) {
+					ItemStack scroll = slot.getStack();
+					if (scroll.hasTagCompound()) {
+						NBTTagCompound tagCompound = scroll.getTagCompound();
+						modifier = tagCompound.getInteger("modifier");
+					}
+				}
+				//Calculate new modifier
+				slot = writingTable.getSlot(3);
+				ItemStack itemStack = slot.getStack();
+				if (itemStack != null) {
+					if (itemStack.getItem() == Item.glowstone) modifier += 2;
+					else if (itemStack.getItem() instanceof ItemRedstone) modifier++;
+					slot.decrStackSize(1);
+				}
+				//Write the scroll
+				itemStack = LanguageUtil.writeScroll(incantation, modifier);
+				slot = writingTable.getSlot(0);
 				slot.putStack(itemStack);
+				//Damage the writing tools
+				slot = writingTable.getSlot(2);
+				itemStack = slot.getStack();
+				if (itemStack != null) {
+					if (itemStack.getItemDamage() >= itemStack.getMaxDamage()) slot.putStack(null);
+					else {
+						itemStack.setItemDamage(itemStack.getItemDamage()+1);
+						slot.putStack(itemStack);
+					}
+				}
 				writingTable.getWritingDesk().onInventoryChanged();
-				System.out.println(itemStack.getTagCompound().toString());
-				System.out.println("Updated scroll server side");
 			}
 			catch (Exception e) {
 				e.printStackTrace();

@@ -1,22 +1,19 @@
 package incantations.common;
 
-import incantations.block.BlockWritingDesk;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import incantations.block.BlockWritingDesk;
 import incantations.incantation.Symbol;
 import incantations.item.ItemResearchNotes;
 import incantations.item.ItemScroll;
+import incantations.item.ItemWritingTools;
 import incantations.network.PacketHandlerClient;
 import incantations.network.PacketHandlerServer;
 import incantations.tileentity.TileEntityWritingDesk;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ResourceManager;
 import net.minecraft.util.ResourceLocation;
-
-import java.io.File;
 
 @Mod(modid = "Incantations", name = "Incantations", version = "1.0.0")
 @NetworkMod(clientPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = {"INC|WritingDesk"}, packetHandler = PacketHandlerClient.class), serverPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = {"INC|WritingDesk"}, packetHandler = PacketHandlerServer.class), clientSideRequired = true, serverSideRequired = false)
@@ -31,6 +28,7 @@ public class Incantations {
 
 	public static ItemScroll itemScroll;
 	private static ItemResearchNotes itemResearchNotes;
+	private static ItemWritingTools itemWritingTools;
 	private static BlockWritingDesk blockWritingDesk;
 
 	@Mod.EventHandler
@@ -38,10 +36,14 @@ public class Incantations {
 		config = new Config(e.getSuggestedConfigurationFile());
 
 		itemScroll = new ItemScroll(config.scrollItemID);
+		GameRegistry.registerItem(itemScroll, "itemScroll");
 		itemResearchNotes = new ItemResearchNotes(config.researchNotesID);
+		GameRegistry.registerItem(itemResearchNotes, "itemResearchNotes");
+		itemWritingTools = new ItemWritingTools(config.inkVialItemID);
+		GameRegistry.registerItem(itemWritingTools, "itemWritingTools");
 		blockWritingDesk = new BlockWritingDesk(config.writingDeskID);
-
 		GameRegistry.registerBlock(blockWritingDesk, "blockWritingDesk");
+
 		GameRegistry.registerTileEntity(TileEntityWritingDesk.class, "tileEntityWritingDesk");
 		NetworkRegistry.instance().registerGuiHandler(instance, guiHandler);
 		registerSymbols();
@@ -54,5 +56,9 @@ public class Incantations {
 			new Symbol(alphabet[i-1], resourceLocation);
 			System.out.println("Mapped the English character \"" + alphabet[i-1] + "\" to the symbol \"symbol" + i + "\"");
 		}
+	}
+
+	private void registerCraftingRecipes() {
+
 	}
 }
