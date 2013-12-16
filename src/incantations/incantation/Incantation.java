@@ -13,7 +13,6 @@ public abstract class Incantation {
 
 	/***
 	 * Create a new instance of this for each incantations.incantation. The word should be the first word of the scroll.
-	 * TODO Make it so incantation words don't have to be the first word of a scroll. Possible issue with collisions though
 	 * @param word
 	 */
 	public Incantation(String word) {

@@ -7,6 +7,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import incantations.block.BlockWritingDesk;
+import incantations.incantation.IncantationAttack;
 import incantations.incantation.IncantationSummon;
 import incantations.incantation.IncantationTeleport;
 import incantations.incantation.Symbol;
@@ -68,7 +69,7 @@ public class Incantations {
 	}
 
 	private void registerSymbols() {
-		String[] alphabet = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "nu-", "-er", "-es", "-ed", "-et"};
+		String[] alphabet = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "nu-", "-er", "-es", "-ed", "-et", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 		for (int i = 1; i <= alphabet.length; i++) {
 			new Symbol(alphabet[i-1], new ResourceLocation("incantations", "textures/gui/symbols/symbol" + i + ".png"));
 		}
@@ -87,6 +88,7 @@ public class Incantations {
 	private void registerIncantations() {
 		new IncantationSummon();
 		new IncantationTeleport();
+		new IncantationAttack();
 	}
 
 	private void registerCraftingRecipes() {

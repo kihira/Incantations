@@ -3,3 +3,7 @@ item.scroll.name=Scroll
 item.inkVial.name=Ink Vial
 item.quill.name=Quill
 tile.writingDesk.name=Writing Desk
+death.attack.pulverize=%1$s was crushed into little pieces
+death.attack.pulverize.player=%1$s was made into tasty treats by %2$s
+death.attack.slice=%1$s was diced into numerous pieces
+death.attack.slice.player=%1$s was diced into numerous pieces by %2$s

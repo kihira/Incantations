@@ -81,7 +81,7 @@ public class ItemScroll extends Item {
 				String[] words = incantation.split(" ");
 				Incantation incan = Incantation.incantationHashMap.get(words[0]);
 				if (incan != null) {
-					validIncantationCount = incan.isValidIncantation(incantation);
+					validIncantationCount = incan.isValidIncantation(incantation, entityPlayer);
 					wordCount = 0;
 					entityPlayer.setItemInUse(itemStack, itemStack.getMaxItemUseDuration());
 					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You begin to read the scroll..."));
@@ -90,10 +90,11 @@ public class ItemScroll extends Item {
 					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You try to read the scroll however the incantation is poorly written and causes the symbols to ignite"));
 					entityPlayer.setFire(5);
 					entityPlayer.setCurrentItemOrArmor(0, new ItemStack(itemStack.itemID, 1, 0));
+					return new ItemStack(itemStack.itemID, 1, 0);
 				}
 			}
 		}
-		return new ItemStack(itemStack.itemID, 1, 0);
+		return itemStack;
 	}
 
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

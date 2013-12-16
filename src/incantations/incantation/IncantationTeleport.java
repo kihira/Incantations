@@ -3,7 +3,7 @@ package incantations.incantation;
 import incantations.util.LanguageUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraft.util.ChatMessageComponent;
 
 public class IncantationTeleport extends Incantation {
 
@@ -35,15 +35,16 @@ public class IncantationTeleport extends Incantation {
 		incantation = LanguageUtil.cleanIncantation(incantation);
 		String[] strings = incantation.split(" ");
 		int[] stuff = new int[3];
-		for (int i = 0; i < strings.length; i++) {
-			if (i > 4) break;
+		for (int i = 1; i < strings.length; i++) {
+			if (i > 3) break;
 			try {
-				stuff[i] = Integer.parseInt(strings[i-1]);
+				stuff[i-1] = Integer.parseInt(strings[i]);
 			}
 			catch (NumberFormatException e) {
 				break;
 			}
 		EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entityPlayer;
+		entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Poof!"));
 		entityPlayerMP.playerNetServerHandler.setPlayerLocation(stuff[0], stuff[1], stuff[2], 0, 0);
 		}
 	}
