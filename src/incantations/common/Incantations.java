@@ -17,6 +17,7 @@ import incantations.network.PacketHandlerClient;
 import incantations.network.PacketHandlerServer;
 import incantations.proxy.ProxyCommon;
 import incantations.tileentity.TileEntityWritingDesk;
+import incantations.util.LanguageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,6 @@ public class Incantations {
 
 	public static Config config;
 	public static final CreativeTabIncantations tabIncantations = new CreativeTabIncantations();
-	private final GuiHandler guiHandler = new GuiHandler();
 
 	public static ItemScroll itemScroll;
 	private static ItemResearchNotes itemResearchNotes;
@@ -58,11 +58,12 @@ public class Incantations {
 		GameRegistry.registerBlock(blockWritingDesk, "blockWritingDesk");
 
 		GameRegistry.registerTileEntity(TileEntityWritingDesk.class, "tileEntityWritingDesk");
-		NetworkRegistry.instance().registerGuiHandler(instance, guiHandler);
+		NetworkRegistry.instance().registerGuiHandler(instance, new GuiHandler());
 		registerSymbols();
 		registerIncantations();
 		registerCraftingRecipes();
 		proxy.registerRenderers();
+		LanguageUtil.loadTranslationList();
 	}
 
 	private void registerSymbols() {

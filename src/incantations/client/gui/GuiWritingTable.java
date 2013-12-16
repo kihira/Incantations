@@ -30,7 +30,6 @@ public class GuiWritingTable extends GuiContainer {
 
 	private final TileEntityWritingDesk writingDesk;
 	private short scrollAmount;
-	private boolean hasScroll = false;
 	private static final ResourceLocation writingDeskTexture = new ResourceLocation("incantations", "textures/gui/container/writingdesk.png");
 
 	private final HashMap<Integer, Symbol> symbolButtonMap = new HashMap<Integer, Symbol>();
@@ -55,7 +54,6 @@ public class GuiWritingTable extends GuiContainer {
 				//if even, draw to the left hand side
 				if (i % 2 == 0) this.buttonList.add(new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 5 + (i * 9), 20, 20));
 				else this.buttonList.add(new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 196, this.guiTop + 5 + ((i - 1) * 9), 20, 20));
-				//System.out.println("Moved button to " + (this.guiLeft + 177) + ", " + (this.guiTop + 5 + (i * 9)));
 			}
 			else {
 				ButtonWritingDeskSymbol buttonWritingDeskSymbol = new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 200, 20, 20);
@@ -70,7 +68,6 @@ public class GuiWritingTable extends GuiContainer {
 		this.scrollContentsArray.clear();
 		//Loads the symbols
 		this.loadScrollData();
-		LanguageUtil.loadTranslationList();
 	}
 
 	public void drawScreen(int par1, int par2, float par3) {
@@ -112,10 +109,9 @@ public class GuiWritingTable extends GuiContainer {
 	private void loadScrollData() {
 		ItemStack itemStack = this.writingDesk.getStackInSlot(-1);
 		if ((itemStack != null) && (itemStack.hasTagCompound())) {
-			hasScroll = true;
 			NBTTagCompound tagCompound = itemStack.getTagCompound();
 			String incantation = tagCompound.getString("incantation");
-			String[] characters = incantation.split("¦");
+			String[] characters = incantation.split("|");
 			for (String character : characters) {
 				if (character != null) this.scrollContentsArray.add(character);
 			}
@@ -215,7 +211,7 @@ public class GuiWritingTable extends GuiContainer {
 		StringBuilder sb = new StringBuilder();
 		for (String character:incantationList) {
 			sb.append(character);
-			sb.append("¦");
+			sb.append("|");
 		}
 		return sb.toString();
 	}
@@ -237,7 +233,7 @@ public class GuiWritingTable extends GuiContainer {
 				}
 				else currentWidth += symbol.getWidth();
 				if (symbol.getTexture() != null) {
-					Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
+					this.mc.getTextureManager().bindTexture(symbol.getTexture());
 					this.drawScrollSymbol(this.guiLeft + 11 + currentWidth, this.guiTop + 16 + (line * 11), symbol.getU(), symbol.getV(), 12, 12);
 				}
 			}

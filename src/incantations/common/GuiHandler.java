@@ -1,5 +1,6 @@
 package incantations.common;
 
+import incantations.client.gui.GuiResearchBook;
 import incantations.client.gui.GuiWritingTable;
 import cpw.mods.fml.common.network.IGuiHandler;
 import incantations.inventory.ContainerWritingTable;
@@ -19,6 +20,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
 		if (ID == 0) return new GuiWritingTable(player.inventory, tileEntityWritingDesk);
+		if (ID == 1) return new GuiResearchBook(player, player.getCurrentEquippedItem());
 		else return null;
 	}
 }

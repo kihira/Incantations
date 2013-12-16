@@ -19,7 +19,7 @@ public class LanguageUtil {
 	public static final HashMap<String, String> translationList = new HashMap<String, String>();
 
 	public static String cleanIncantation(String incantation) {
-		incantation = incantation.replace("¦", "");
+		incantation = incantation.replace("|", "");
 		incantation = incantation.replace("⏎", " ");
 		return incantation;
 	}
@@ -33,20 +33,20 @@ public class LanguageUtil {
 				String s = (String) iterator.next();
 				if (!s.isEmpty()) {
 					String[] astring = s.split("=");
-					if (astring.length == 2) translationList.put(astring[0], astring[1]);
+					if (astring.length == 2) {
+						translationList.put(cleanIncantation(astring[0]), astring[1]);
+					}
 				}
 			}
 			System.out.println("Loaded translation list!");
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static String validateAndTranslate(ArrayList<Symbol> symbols) {
-		//TODO
-		return null;
+	public static String getEnglishWord(String string) {
+		return translationList.get(string);
 	}
 
 	public static ItemStack writeScroll(ArrayList<String> incantation, int modifier) {
