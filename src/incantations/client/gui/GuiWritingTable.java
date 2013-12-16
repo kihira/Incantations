@@ -140,7 +140,7 @@ public class GuiWritingTable extends GuiContainer {
 		}
 		//If scroll button is hit, scroooooooooll
 		else if (guiButton.id == -2) {
-			if (scrollAmount < 10) {
+			if (scrollAmount < (Symbol.symbolMap.size()/2) - 6) {
 				scrollAmount++;
 				int j = 0;
 				for (Object object:this.buttonList) {

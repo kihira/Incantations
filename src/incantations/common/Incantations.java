@@ -1,11 +1,14 @@
 package incantations.common;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import incantations.block.BlockWritingDesk;
 import incantations.incantation.IncantationAttack;
 import incantations.incantation.IncantationSummon;
@@ -65,8 +68,9 @@ public class Incantations {
 		registerIncantations();
 		registerCraftingRecipes();
 		proxy.registerRenderers();
-		LanguageUtil.loadTranslationList();
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) LanguageUtil.loadTranslationList();
 	}
+
 
 	private void registerSymbols() {
 		String[] alphabet = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "nu-", "-er", "-es", "-ed", "-et", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
@@ -74,7 +78,8 @@ public class Incantations {
 			new Symbol(alphabet[i-1], new ResourceLocation("incantations", "textures/gui/symbols/symbol" + i + ".png"));
 		}
 		new Symbol(" ", null);
-		new Symbol("'", new ResourceLocation("incantations", "textures/gui/symbols/apostrophe.png")).setUV(5, 0).setWidth(5);
+		//new Symbol("'", new ResourceLocation("incantations", "textures/gui/symbols/apostrophe.png")).setUV(5, 0).setWidth(5);
+		new Symbol("'", new ResourceLocation("incantations", "textures/gui/symbols/apostrophe.png")).setUV(3, 0);
 		new Symbol(".", new ResourceLocation("incantations", "textures/gui/symbols/fullstop.png")).setUV(5, 0);
 		new Symbol(":", new ResourceLocation("incantations", "textures/gui/symbols/colon.png")).setUV(5, 0);
 		new Symbol(",", new ResourceLocation("incantations", "textures/gui/symbols/comma.png")).setUV(4, 0);

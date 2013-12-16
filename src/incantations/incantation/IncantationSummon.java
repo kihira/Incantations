@@ -3,12 +3,10 @@ package incantations.incantation;
 import incantations.util.LanguageUtil;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
@@ -23,8 +21,6 @@ import java.util.HashMap;
 public class IncantationSummon extends Incantation {
 
 	private final HashMap<String, Class> summonableList = new HashMap<String, Class>();
-	//private HashMap<String, String> incantationList = new HashMap<String, String>();
-	//private ArrayList<String> descriptorList = new ArrayList<String>();
 
 	public IncantationSummon() {
 		super("ah'zivuud");
@@ -36,19 +32,10 @@ public class IncantationSummon extends Incantation {
 		summonableList.put("cuckoo", EntityChicken.class);
 		summonableList.put("sode'looni", EntitySheep.class);
 		summonableList.put("meh'lir", EntityCow.class);
-
-		/*
-		incantationList.put("endroquer", "senth tiled, calter hestitalet nestol, licham mortet, savis viseris, ai poselis nu tes ta elemar af le mortular.");
-		incantationList.put("endroquer tooret", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
-		incantationList.put("tooret endroquer", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
-		incantationList.put("kaskal", "kask martes, kraskt ren metir, waskor at mart, ai poselis nu tes ta elemar af le mortular.");
-		incantationList.put("xyzaah'il", "salmec ren nostrinum, mesuid faset, destolix posk'ilar, itrelet mortu, ai ah'zivuud tes oy.");
-		incantationList.put("dragon", "wings as black as the night eyes a fierce purple scales as hard as diamonds to which no one prevails flying fast through the air breaking mountains towns cities Ruining lives and generations fowl beast of the sky I call you here to a challenge fight me now");
-		incantationList.put("saklida'es", "fehah ren cregret, quelanuil ren purtin, motspu'renah vis'muh, ai ah'zivuud tes oy.");
-		incantationList.put("chicken", "unable to fly feathers so soft eggs all around oh feathered god hear my plea");
-		incantationList.put("cow", "skin of leather food for days milking the riches out of this beast");
-		incantationList.put("sheep", "wool so soft so light so fluffy i am sleeping tight tonight");
-		*/
+		summonableList.put("ich'uun", EntityPig.class);
+		summonableList.put("elemor", EntityBlaze.class);
+		summonableList.put("rukuhan", EntitySpider.class);
+		summonableList.put("posk'ilar", EntityEnderman.class);
 	}
 
 	@Override
@@ -90,16 +77,25 @@ public class IncantationSummon extends Incantation {
 					e.printStackTrace();
 				}
 			}
-			else {
-				entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4You feel the scroll surge with power beyond you control!"));
-				entityPlayer.attackEntityFrom(DamageSource.magic, 6);
-			}
+			else doFailedIncantation(incantation, words.length, entityPlayer);
 		}
 	}
 
 	@Override
 	public void doFailedIncantation(String incantation, int validWordCount, EntityPlayer entityPlayer) {
-
+		//entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4You feel the scroll surge with power beyond you control!"));
+		String[] words = incantation.split(" ");
+		if (words[1].equals("dragon")) {
+			EntitySheep entitySheep = new EntitySheep(entityPlayer.worldObj);
+			entitySheep.setPosition(entityPlayer.posX + 1, entityPlayer.posY + 1, entityPlayer.posZ);
+			entitySheep.setAttackTarget(entityPlayer);
+			entityPlayer.worldObj.spawnEntityInWorld(entitySheep);
+			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4Your scroll has summoned a foul beast from the depths of the Overworld!"));
+		}
+		else if (summonableList.containsKey(words[1])) {
+			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4Your scroll attempts to summon something but fails and unleashes a burst of magic!"));
+			entityPlayer.attackEntityFrom(DamageSource.magic, 6);
+		}
 	}
 
 	public static MovingObjectPosition getBlockLookAt(EntityPlayer player, double maxBlockDistance) {

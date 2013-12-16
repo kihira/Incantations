@@ -46,7 +46,7 @@ public class ItemScroll extends Item {
 				String incantation = nbtTagCompound.getString("incantation");
 				String[] words = LanguageUtil.cleanIncantation(incantation).split(" ");
 				Incantation incan = Incantation.incantationHashMap.get(words[0]);
-				if ((wordCount < words.length) && (validIncantationCount >= wordCount)) {
+				if ((wordCount < words.length) && (validIncantationCount > wordCount)) {
 					player.sendChatToPlayer(ChatMessageComponent.createFromText("§3§o" + WordUtils.capitalize(LanguageUtil.cleanIncantation(words[wordCount])) + "..."));
 					wordCount++;
 				}
@@ -55,8 +55,8 @@ public class ItemScroll extends Item {
 					player.setCurrentItemOrArmor(0, null);
 				}
 				else {
-					player.sendChatToPlayer(ChatMessageComponent.createFromText("You try to read the next word however the incantation is poorly written and causes the scroll to malfunction"));
-					incan.doFailedIncantation(incantation, wordCount, player);
+					player.sendChatToPlayer(ChatMessageComponent.createFromText("§cYou try to read the next word however the incantation is poorly written and causes the scroll to malfunction"));
+					incan.doFailedIncantation(incantation, validIncantationCount, player);
 					player.setCurrentItemOrArmor(0, null);
 				}
 			}
@@ -82,6 +82,7 @@ public class ItemScroll extends Item {
 				Incantation incan = Incantation.incantationHashMap.get(words[0]);
 				if (incan != null) {
 					validIncantationCount = incan.isValidIncantation(incantation, entityPlayer);
+					System.out.println(validIncantationCount);
 					wordCount = 0;
 					entityPlayer.setItemInUse(itemStack, itemStack.getMaxItemUseDuration());
 					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You begin to read the scroll..."));

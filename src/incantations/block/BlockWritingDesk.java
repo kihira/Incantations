@@ -16,12 +16,11 @@ import incantations.tileentity.TileEntityWritingDesk;
 
 public class BlockWritingDesk extends Block implements ITileEntityProvider {
 
-	private int direction = 0;
 	public BlockWritingDesk(int id) {
 		super(id, Material.wood);
 		setUnlocalizedName("writingDesk");
 		setHardness(10f);
-		setTextureName("incantations:inkVial");
+		setTextureName("minecraft:wood_oak");
 		setCreativeTab(Incantations.tabIncantations);
 	}
 
@@ -54,7 +53,6 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
 		int l = MathHelper.floor_double((double) (par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		this.direction = l;
 		if (l == 0) par1World.setBlockMetadataWithNotify(par2, par3, par4, 2, 2);
 		if (l == 1) par1World.setBlockMetadataWithNotify(par2, par3, par4, 5, 2);
 		if (l == 2) par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
@@ -65,13 +63,14 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int blockID, int meta) {
 		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
-		for (int i = -1; i >= -5; i--) {
+		for (int i = -5; i <= -1; i++) {
 			ItemStack itemStack = tileEntityWritingDesk.getStackInSlot(i);
 			if (itemStack != null) {
 				EntityItem entityItem = new EntityItem(world, x, y, z, itemStack);
 				entityItem.motionX = world.rand.nextGaussian() * 0.05f;
-				entityItem.motionY = world.rand.nextGaussian() * 0.05f;
+				entityItem.motionY = world.rand.nextGaussian() * 0.05f + 0.2f;
 				entityItem.motionZ = world.rand.nextGaussian() * 0.05f;
+				world.spawnEntityInWorld(entityItem);
 			}
 		}
 		super.breakBlock(world, x, y, z, blockID, meta);
