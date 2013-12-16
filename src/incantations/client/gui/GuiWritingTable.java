@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 import incantations.tileentity.TileEntityWritingDesk;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.io.ByteArrayOutputStream;
@@ -78,6 +79,34 @@ public class GuiWritingTable extends GuiContainer {
 		this.scrollContentsArray.clear();
 		if (this.writingDesk.getStackInSlot(-1) != null) this.loadScrollData();
 		this.drawScroll();
+	}
+
+	protected void keyTyped(char character, int keyCode) {
+		if (keyCode == 1) this.mc.thePlayer.closeScreen();
+		//Enter key. Not ideal but works
+		if (keyCode == 28) character = "⏎".charAt(0);
+		if (Symbol.symbolMap.containsKey(String.valueOf(character))) {
+			if (this.writingDesk.getStackInSlot(-2) != null) {
+				if (this.scrollContentsArray.size() >= 90) return;
+				//Check we have all needed equipment
+				if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
+					this.writingDesk.onInventoryChanged();
+					this.scrollContentsArray.add(String.valueOf(character));
+
+					//Send scroll data to server
+					ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+					DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
+					try {
+						System.out.println(this.scrollContentsArray);
+						dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
+						this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	private void loadScrollData() {
@@ -157,8 +186,7 @@ public class GuiWritingTable extends GuiContainer {
 					if (j > (15 + (scrollAmount * 2))) break;
 					GuiButton button = (GuiButton) object;
 					if (button instanceof ButtonWritingDeskSymbol) {
-						if (button.id >= (15 + ((scrollAmount * 2) - 1))) {
-							//Hide and disable the button as we have scrolled past it
+						if ((button.id >= (15 + ((scrollAmount * 2) - 1))) || (scrollAmount * 2 > j)) {
 							button.drawButton = false;
 							button.enabled = false;
 							button.yPosition = 1;
@@ -203,12 +231,12 @@ public class GuiWritingTable extends GuiContainer {
 					line++;
 					currentWidth = 0;
 				}
-				else if (symbol.getTexture() != null) {
-					if ((currentWidth + symbol.getWidth() > maxWidth)) {
-						line++;
-						currentWidth = symbol.getWidth();
-					}
-					else currentWidth += symbol.getWidth();
+				if ((currentWidth + symbol.getWidth() > maxWidth)) {
+					line++;
+					currentWidth = symbol.getWidth();
+				}
+				else currentWidth += symbol.getWidth();
+				if (symbol.getTexture() != null) {
 					Minecraft.getMinecraft().getTextureManager().bindTexture(symbol.getTexture());
 					this.drawScrollSymbol(this.guiLeft + 11 + currentWidth, this.guiTop + 16 + (line * 11), symbol.getU(), symbol.getV(), 12, 12);
 				}

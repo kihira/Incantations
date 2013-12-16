@@ -1,5 +1,6 @@
 package incantations.incantation;
 
+import incantations.util.LanguageUtil;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -8,9 +9,10 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.lang.reflect.Constructor;
@@ -47,25 +49,38 @@ public class IncantationSummon extends Incantation {
 	}
 
 	@Override
-	public boolean isValidIncantation(String incantation) {
+	public int isValidIncantation(String incantation) {
+		incantation = LanguageUtil.cleanIncantation(incantation);
+		String[] strings = incantation.split(" ");
+		int validCount = 1;
+		if (summonableList.containsKey(strings[1])) validCount++;
+		for (int i = 1; i < strings.length; i++) {
+			if (strings[i].equals("burning") || strings[i].equals("fast")) validCount++;
+			else break;
+		}
+		return validCount;
+		/*
 		String[] strings = incantation.split("⏎");
 		return (incantationList.containsKey("ah'zivuud " + strings[0])) && (incantationList.get(strings[1]).equals(incantation));
+		*/
 	}
 
 	@Override
 	public void doIncantation(String incantation, EntityPlayer entityPlayer) {
+		incantation = LanguageUtil.cleanIncantation(incantation);
 		String[] words = incantation.split(" ");
 		if (matchesSummonable(words[1])) {
+			System.out.println("yay valid creature");
 			try {
-				//Will this work? who knows!
 				Constructor constructor = summonableList.get(words[1]).getDeclaredConstructor(World.class);
 				EntityLiving entityLiving = (EntityLiving) constructor.newInstance(entityPlayer.worldObj);
-				//TODO spawn where player is looking
-				entityLiving.setLocationAndAngles(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 0, 0);
+				MovingObjectPosition movingObjectPosition = getBlockLookAt(entityPlayer, 10);
+				if (movingObjectPosition == null) entityLiving.setLocationAndAngles(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 0, 0);
+				else entityLiving.setLocationAndAngles(movingObjectPosition.blockX, movingObjectPosition.blockY + 1, movingObjectPosition.blockZ, 0, 0);
 				//Apply descriptors
 				if (words.length > 2) {
 					for (String word:words) {
-						if (word.equals("burning")) entityLiving.setFire(10);
+						if (word.equals("burning")) entityLiving.setFire(5);
 						//TODO fix
 						if (word.equals("fast")) entityLiving.setAIMoveSpeed(15f);
 					}
@@ -78,8 +93,15 @@ public class IncantationSummon extends Incantation {
 	}
 
 	@Override
-	public void doFailedIncantation(String incantation, EntityPlayer entityPlayer) {
+	public void doFailedIncantation(String incantation, int validWordCount, EntityPlayer entityPlayer) {
 
+	}
+
+	public static MovingObjectPosition getBlockLookAt(EntityPlayer player, double maxBlockDistance) {
+		Vec3 vec3 = player.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + (player.worldObj.isRemote ? 0.0D : (player.getEyeHeight() - 0.09D)), player.posZ);
+		Vec3 vec31 = player.getLookVec();
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * maxBlockDistance, vec31.yCoord * maxBlockDistance, vec31.zCoord * maxBlockDistance);
+		return player.worldObj.clip(vec3, vec32);
 	}
 
 	private boolean matchesSummonable(String word) {

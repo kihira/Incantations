@@ -10,7 +10,7 @@ public class ItemQuill extends Item {
 		setMaxStackSize(1);
 		setMaxDamage(300);
 		setUnlocalizedName("quill");
-		setTextureName("incantations:feather.png");
+		setTextureName("incantations:quill");
 		setCreativeTab(Incantations.tabIncantations);
 	}
 }

@@ -18,6 +18,12 @@ public class LanguageUtil {
 
 	public static final HashMap<String, String> translationList = new HashMap<String, String>();
 
+	public static String cleanIncantation(String incantation) {
+		incantation = incantation.replace("¦", "");
+		incantation = incantation.replace("⏎", " ");
+		return incantation;
+	}
+
 	public static void loadTranslationList() {
 		ResourceLocation resourceLocation = new ResourceLocation("incantations", "lang/unknown.lang");
 		try {

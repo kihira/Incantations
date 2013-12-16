@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public abstract class Incantation {
 
-	private HashMap<String, Incantation> incantationHashMap = new HashMap<String, Incantation>();
+	public static final HashMap<String, Incantation> incantationHashMap = new HashMap<String, Incantation>();
 
 	/***
 	 * Create a new instance of this for each incantations.incantation. The word should be the first word of the scroll.
@@ -26,7 +26,7 @@ public abstract class Incantation {
 	 * @param incantation The incantations.incantation to be checked
 	 * @return What word count the incantations.incantation is valid
 	 */
-	public abstract boolean isValidIncantation(String incantation);
+	public abstract int isValidIncantation(String incantation);
 
 	/***
 	 * When the scroll has finished being casted/read, this is called.
@@ -40,6 +40,6 @@ public abstract class Incantation {
 	 * @param incantation
 	 * @param entityPlayer
 	 */
-	public abstract void doFailedIncantation(String incantation, EntityPlayer entityPlayer);
+	public abstract void doFailedIncantation(String incantation, int validWordCount, EntityPlayer entityPlayer);
 
 }
