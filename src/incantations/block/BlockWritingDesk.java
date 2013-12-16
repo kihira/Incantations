@@ -4,18 +4,24 @@ import incantations.common.Incantations;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import incantations.tileentity.TileEntityWritingDesk;
 
 public class BlockWritingDesk extends Block implements ITileEntityProvider {
+
+	private int direction = 0;
 	public BlockWritingDesk(int id) {
 		super(id, Material.wood);
 		setUnlocalizedName("writingDesk");
 		setHardness(10f);
+		setTextureName("incantations:inkVial");
 		setCreativeTab(Incantations.tabIncantations);
 	}
 
@@ -43,6 +49,17 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int meta, float par7, float par8, float par9) {
 		if (!entityPlayer.isSneaking()) entityPlayer.openGui(Incantations.instance, 0, world, x, y, z);
 		return true;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+		int l = MathHelper.floor_double((double) (par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		this.direction = l;
+		if (l == 0) par1World.setBlockMetadataWithNotify(par2, par3, par4, 2, 2);
+		if (l == 1) par1World.setBlockMetadataWithNotify(par2, par3, par4, 5, 2);
+		if (l == 2) par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
+		if (l == 3) par1World.setBlockMetadataWithNotify(par2, par3, par4, 4, 2);
+		par1World.markBlockForUpdate(par2, par3, par4);
 	}
 
 	@Override

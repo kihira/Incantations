@@ -11,31 +11,33 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class IncantationSummon extends Incantation {
 
-	private HashMap<String, Class> summonableList = new HashMap<String, Class>();
-	private HashMap<String, String> incantationList = new HashMap<String, String>();
-	private ArrayList<String> descriptorList = new ArrayList<String>();
+	private final HashMap<String, Class> summonableList = new HashMap<String, Class>();
+	//private HashMap<String, String> incantationList = new HashMap<String, String>();
+	//private ArrayList<String> descriptorList = new ArrayList<String>();
 
 	public IncantationSummon() {
-		super("summon");
-		summonableList.put("zombie", EntityZombie.class);
-		summonableList.put("skeleton", EntitySkeleton.class);
-		summonableList.put("creeper", EntityCreeper.class);
+		super("ah'zivuud");
+		summonableList.put("endroquer", EntityZombie.class);
+		summonableList.put("kaskal", EntitySkeleton.class);
+		summonableList.put("xyzaah'il", EntityCreeper.class);
 		summonableList.put("dragon", EntityDragon.class);
-		summonableList.put("slime", EntitySlime.class);
-		summonableList.put("chicken", EntityChicken.class);
-		summonableList.put("sheep", EntitySheep.class);
-		summonableList.put("cow", EntityCow.class);
+		summonableList.put("saklida'es", EntitySlime.class);
+		summonableList.put("cuckoo", EntityChicken.class);
+		summonableList.put("sode'looni", EntitySheep.class);
+		summonableList.put("meh'lir", EntityCow.class);
 
+		/*
 		incantationList.put("endroquer", "senth tiled, calter hestitalet nestol, licham mortet, savis viseris, ai poselis nu tes ta elemar af le mortular.");
 		incantationList.put("endroquer tooret", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
 		incantationList.put("tooret endroquer", "le lumer sines, tooret le terer, le morteris viseris, poselis elemar af le mortular ta aserel un le lumentes at lumis.");
@@ -46,23 +48,20 @@ public class IncantationSummon extends Incantation {
 		incantationList.put("chicken", "unable to fly feathers so soft eggs all around oh feathered god hear my plea");
 		incantationList.put("cow", "skin of leather food for days milking the riches out of this beast");
 		incantationList.put("sheep", "wool so soft so light so fluffy i am sleeping tight tonight");
+		*/
 	}
 
 	@Override
-	public int isValidIncantation(String incantation) {
+	public int isValidIncantation(String incantation, EntityPlayer entityPlayer) {
 		incantation = LanguageUtil.cleanIncantation(incantation);
 		String[] strings = incantation.split(" ");
 		int validCount = 1;
 		if (summonableList.containsKey(strings[1])) validCount++;
 		for (int i = 1; i < strings.length; i++) {
-			if (strings[i].equals("burning") || strings[i].equals("fast")) validCount++;
+			if (strings[i].equals("tooret") || strings[i].equals("spooh")) validCount++;
 			else break;
 		}
 		return validCount;
-		/*
-		String[] strings = incantation.split("⏎");
-		return (incantationList.containsKey("ah'zivuud " + strings[0])) && (incantationList.get(strings[1]).equals(incantation));
-		*/
 	}
 
 	@Override
@@ -70,24 +69,30 @@ public class IncantationSummon extends Incantation {
 		incantation = LanguageUtil.cleanIncantation(incantation);
 		String[] words = incantation.split(" ");
 		if (matchesSummonable(words[1])) {
-			System.out.println("yay valid creature");
-			try {
-				Constructor constructor = summonableList.get(words[1]).getDeclaredConstructor(World.class);
-				EntityLiving entityLiving = (EntityLiving) constructor.newInstance(entityPlayer.worldObj);
-				MovingObjectPosition movingObjectPosition = getBlockLookAt(entityPlayer, 10);
-				if (movingObjectPosition == null) entityLiving.setLocationAndAngles(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 0, 0);
-				else entityLiving.setLocationAndAngles(movingObjectPosition.blockX, movingObjectPosition.blockY + 1, movingObjectPosition.blockZ, 0, 0);
-				//Apply descriptors
-				if (words.length > 2) {
-					for (String word:words) {
-						if (word.equals("burning")) entityLiving.setFire(5);
-						//TODO fix
-						if (word.equals("fast")) entityLiving.setAIMoveSpeed(15f);
+			int failChance = 10;
+			if (words[1].equals("dragon")) failChance = 990;
+			if (this.random.nextInt(1001) > failChance) {
+				try {
+					Constructor constructor = summonableList.get(words[1]).getDeclaredConstructor(World.class);
+					EntityLiving entityLiving = (EntityLiving) constructor.newInstance(entityPlayer.worldObj);
+					MovingObjectPosition movingObjectPosition = getBlockLookAt(entityPlayer, 10);
+					if (movingObjectPosition == null) entityLiving.setLocationAndAngles(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 0, 0);
+					else entityLiving.setLocationAndAngles(movingObjectPosition.blockX, movingObjectPosition.blockY + 1, movingObjectPosition.blockZ, 0, 0);
+					//Apply descriptors
+					if (words.length > 2) {
+						for (String word:words) {
+							if (word.equals("tooret")) entityLiving.setFire(5);
+							if (word.equals("spooh")) entityLiving.setAIMoveSpeed(15f);
+						}
 					}
+					entityPlayer.worldObj.spawnEntityInWorld(entityLiving);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				entityPlayer.worldObj.spawnEntityInWorld(entityLiving);
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+			else {
+				entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4You feel the scroll surge with power beyond you control!"));
+				entityPlayer.attackEntityFrom(DamageSource.magic, 6);
 			}
 		}
 	}
@@ -106,9 +111,5 @@ public class IncantationSummon extends Incantation {
 
 	private boolean matchesSummonable(String word) {
 		return summonableList.containsKey(word.toLowerCase());
-	}
-
-	private boolean matchesDescriptor(String word) {
-		return descriptorList.contains(word.toLowerCase());
 	}
 }

@@ -21,7 +21,7 @@ public class ItemResearchNotes extends Item {
 		setMaxDamage(1);
 		setMaxStackSize(1);
 		setUnlocalizedName("researchNotes");
-		setTextureName("incantations:researchNotes");
+		setTextureName("incantations:researchnotes");
 		setCreativeTab(Incantations.tabIncantations);
 		setHasSubtypes(true);
 	}
@@ -39,6 +39,7 @@ public class ItemResearchNotes extends Item {
 			i++;
 		}
 		researchTagCompound.setTag("words", nbtTagList);
+		researchTagCompound.setBoolean("cheatybook", true);
 		nbtTagCompound.setCompoundTag("research", researchTagCompound);
 		itemStack.setTagCompound(nbtTagCompound);
 		list.add(itemStack);
@@ -48,5 +49,16 @@ public class ItemResearchNotes extends Item {
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
 		if (!entityPlayer.isSneaking()) entityPlayer.openGui(Incantations.instance, 1, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		return itemStack;
+	}
+
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+		if (itemStack.hasTagCompound()) {
+			NBTTagCompound nbtTagCompound = itemStack.getTagCompound().getCompoundTag("research");
+			if (nbtTagCompound.getBoolean("cheatybook")) {
+				list.add("Shows all translations and allows use");
+				list.add("of keyboard in writing desk GUI");
+			}
+		}
 	}
 }

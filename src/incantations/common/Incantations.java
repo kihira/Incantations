@@ -8,6 +8,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import incantations.block.BlockWritingDesk;
 import incantations.incantation.IncantationSummon;
+import incantations.incantation.IncantationTeleport;
 import incantations.incantation.Symbol;
 import incantations.item.ItemQuill;
 import incantations.item.ItemResearchNotes;
@@ -72,7 +73,7 @@ public class Incantations {
 			new Symbol(alphabet[i-1], new ResourceLocation("incantations", "textures/gui/symbols/symbol" + i + ".png"));
 		}
 		new Symbol(" ", null);
-		new Symbol("'", new ResourceLocation("incantations", "textures/gui/symbols/apostrophe.png")).setUV(5, 0).setWidth(3);
+		new Symbol("'", new ResourceLocation("incantations", "textures/gui/symbols/apostrophe.png")).setUV(5, 0).setWidth(5);
 		new Symbol(".", new ResourceLocation("incantations", "textures/gui/symbols/fullstop.png")).setUV(5, 0);
 		new Symbol(":", new ResourceLocation("incantations", "textures/gui/symbols/colon.png")).setUV(5, 0);
 		new Symbol(",", new ResourceLocation("incantations", "textures/gui/symbols/comma.png")).setUV(4, 0);
@@ -85,6 +86,7 @@ public class Incantations {
 
 	private void registerIncantations() {
 		new IncantationSummon();
+		new IncantationTeleport();
 	}
 
 	private void registerCraftingRecipes() {

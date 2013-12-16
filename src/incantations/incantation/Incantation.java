@@ -3,10 +3,13 @@ package incantations.incantation;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public abstract class Incantation {
 
 	public static final HashMap<String, Incantation> incantationHashMap = new HashMap<String, Incantation>();
+
+	protected Random random = new Random();
 
 	/***
 	 * Create a new instance of this for each incantations.incantation. The word should be the first word of the scroll.
@@ -26,7 +29,7 @@ public abstract class Incantation {
 	 * @param incantation The incantations.incantation to be checked
 	 * @return What word count the incantations.incantation is valid
 	 */
-	public abstract int isValidIncantation(String incantation);
+	public abstract int isValidIncantation(String incantation, EntityPlayer entityPlayer);
 
 	/***
 	 * When the scroll has finished being casted/read, this is called.

@@ -38,7 +38,7 @@ public class LanguageUtil {
 					}
 				}
 			}
-			System.out.println("Loaded translation list!");
+			System.out.println("[Incantations] Loaded translation list!");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

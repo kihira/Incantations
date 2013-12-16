@@ -55,7 +55,6 @@ public class ItemScroll extends Item {
 					player.setCurrentItemOrArmor(0, null);
 				}
 				else {
-					System.out.println(wordCount);
 					player.sendChatToPlayer(ChatMessageComponent.createFromText("You try to read the next word however the incantation is poorly written and causes the scroll to malfunction"));
 					incan.doFailedIncantation(incantation, wordCount, player);
 					player.setCurrentItemOrArmor(0, null);
@@ -88,13 +87,13 @@ public class ItemScroll extends Item {
 					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You begin to read the scroll..."));
 				}
 				else {
-					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You try to read the scroll however the incantation is poorly written and causes the scroll to ignite"));
+					entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("You try to read the scroll however the incantation is poorly written and causes the symbols to ignite"));
 					entityPlayer.setFire(5);
-					entityPlayer.setCurrentItemOrArmor(0, null);
+					entityPlayer.setCurrentItemOrArmor(0, new ItemStack(itemStack.itemID, 1, 0));
 				}
 			}
 		}
-		return itemStack;
+		return new ItemStack(itemStack.itemID, 1, 0);
 	}
 
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {

@@ -11,6 +11,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 public class ProxyClient extends ProxyCommon {
 
 	public static final ResourceLocation writingDeskTexture = new ResourceLocation("incantations", "textures/model/writingdesk1.png");
+	public static final ResourceLocation writingDeskTextureScroll = new ResourceLocation("incantations", "textures/model/writingdesk2.png");
 
 	public void registerRenderers() {
 		BlockWritingDeskRenderer blockWritingDeskRenderer = new BlockWritingDeskRenderer();

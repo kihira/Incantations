@@ -94,7 +94,6 @@ public class GuiWritingTable extends GuiContainer {
 					ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 					DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 					try {
-						System.out.println(this.scrollContentsArray);
 						dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
 						this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
 					}
@@ -113,7 +112,7 @@ public class GuiWritingTable extends GuiContainer {
 			String incantation = tagCompound.getString("incantation");
 			String[] characters = incantation.split("|");
 			for (String character : characters) {
-				if (character != null) this.scrollContentsArray.add(character);
+				if ((character != null) && (character.length() > 0)  && (!character.equals(""))) this.scrollContentsArray.add(character);
 			}
 			this.drawScroll();
 		}
@@ -131,7 +130,6 @@ public class GuiWritingTable extends GuiContainer {
 				ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 				DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 				try {
-					System.out.println(this.scrollContentsArray);
 					dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
 					this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
 				}
@@ -210,8 +208,10 @@ public class GuiWritingTable extends GuiContainer {
 	private String makeIncantationString(ArrayList<String> incantationList) {
 		StringBuilder sb = new StringBuilder();
 		for (String character:incantationList) {
-			sb.append(character);
-			sb.append("|");
+			if (!character.equals("|") && !character.equals("")) {
+				sb.append(character);
+				sb.append("|");
+			}
 		}
 		return sb.toString();
 	}
