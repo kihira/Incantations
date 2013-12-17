@@ -1,6 +1,5 @@
 package incantations.common;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -14,10 +13,10 @@ import incantations.incantation.IncantationAttack;
 import incantations.incantation.IncantationSummon;
 import incantations.incantation.IncantationTeleport;
 import incantations.incantation.Symbol;
+import incantations.item.ItemInkVial;
 import incantations.item.ItemQuill;
 import incantations.item.ItemResearchNotes;
 import incantations.item.ItemScroll;
-import incantations.item.ItemInkVial;
 import incantations.network.PacketHandlerClient;
 import incantations.network.PacketHandlerServer;
 import incantations.proxy.ProxyCommon;

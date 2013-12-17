@@ -1,13 +1,11 @@
 package incantations.incantation;
 
 import incantations.util.LanguageUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.DamageSource;
@@ -36,6 +34,11 @@ public class IncantationSummon extends Incantation {
 		summonableList.put("elemor", EntityBlaze.class);
 		summonableList.put("rukuhan", EntitySpider.class);
 		summonableList.put("posk'ilar", EntityEnderman.class);
+		summonableList.put("elem'nostrak", EntityGhast.class);
+		summonableList.put("tuhunkt'mart", EntityIronGolem.class);
+		summonableList.put("saklida'toor", EntityMagmaCube.class);
+		summonableList.put("ich'endroquer", EntityPigZombie.class);
+		summonableList.put("squ'ee", EntityBat.class);
 	}
 
 	@Override

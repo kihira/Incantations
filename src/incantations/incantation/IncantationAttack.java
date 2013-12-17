@@ -37,6 +37,10 @@ public class IncantationAttack extends Incantation {
 		targetableList.put("elemor", EntityBlaze.class);
 		targetableList.put("rukuhan", EntitySpider.class);
 		targetableList.put("posk'ilar", EntityEnderman.class);
+		targetableList.put("elem'nostrak", EntityGhast.class);
+		targetableList.put("tuhunkt'mart", EntityIronGolem.class);
+		targetableList.put("saklida'toor", EntityMagmaCube.class);
+		targetableList.put("ich'endroquer", EntityPigZombie.class);
 
 		attackList.add("toor"); //Burn
 		attackList.add("mortor"); //Smite
@@ -49,7 +53,6 @@ public class IncantationAttack extends Incantation {
 		incantation = LanguageUtil.cleanIncantation(incantation);
 		String[] strings = incantation.split(" ");
 		int validCount = 1;
-
 		//if (entityPlayer.worldObj.getPlayerEntityByName(strings[1]) != null) validCount++;
 		//TODO Does minecraft allow for multiple usernames that are the same but different case?
 		boolean flag = false;

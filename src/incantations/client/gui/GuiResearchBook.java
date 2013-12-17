@@ -22,7 +22,7 @@ public class GuiResearchBook extends GuiScreen {
 	private GuiButton prevPageButton;
 	private GuiButton nextPageButton;
 
-	public GuiResearchBook(EntityPlayer player, ItemStack itemStack) {
+	public GuiResearchBook(ItemStack itemStack) {
 		if (itemStack.hasTagCompound()) {
 			this.wordsKnownList = itemStack.getTagCompound().getCompoundTag("research").getTagList("words");
 		}
@@ -52,7 +52,7 @@ public class GuiResearchBook extends GuiScreen {
 		//Draw the research
 		if (this.wordsKnownList != null) {
 			for (int i = 0; i < 4; i++) {
-				if (i + (currentPage * 4) >= this.wordsKnownList.tagCount()) return;
+				if (i + (currentPage * 4) >= this.wordsKnownList.tagCount()) break;
 				NBTTagString wordData = (NBTTagString) this.wordsKnownList.tagAt(i + (currentPage * 4));
 				String word = wordData.data;
 				String[] characters = word.split("|");
@@ -61,6 +61,7 @@ public class GuiResearchBook extends GuiScreen {
 				for (String character:characters) {
 					Symbol symbol = Symbol.symbolMap.get(character);
 					if (symbol != null) {
+						if (k > 11) break;
 						this.mc.getTextureManager().bindTexture(symbol.getTexture());
 						drawScrollSymbol(j + 37 + (k * symbol.getWidth()), 20 + (i * 33), symbol.getU(), symbol.getV(), 12, 12);
 						k++;

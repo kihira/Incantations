@@ -20,7 +20,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
 		if (ID == 0) return new GuiWritingTable(player.inventory, tileEntityWritingDesk);
-		if (ID == 1) return new GuiResearchBook(player, player.getCurrentEquippedItem());
+		if (ID == 1) return new GuiResearchBook(player.getCurrentEquippedItem());
 		else return null;
 	}
 }
