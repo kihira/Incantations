@@ -1,0 +1,16 @@
+[{
+    "modid": "incantations",
+    "name": "Incantations",
+    "description": "Using an ancient language, write your own scrolls with incantations",
+    "version": "1.0.0",
+    "mcversion": "1.6.4",
+    "url": "http://kihirakreations.co.uk/",
+    "updateUrl": "",
+    "authors": [ "Nexans", "Kihira" ],
+    "credits": "Code by Kihira, Textures by Nexans",
+    "logoFile": "",
+    "screenshots": [ ],
+    "parent": "",
+    "requiredMods": [ "Forge" ],
+    "dependencies": [  ]
+}]
