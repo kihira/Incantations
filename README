@@ -1,0 +1,37 @@
+Incantations
+===================
+
+REPORT ALL ISSUES HERE - https://bitbucket.org/Kihira/modjam3/issues
+
+##Build Instructions for Incantations
+1) Setup the Forge/MCP enviorment by downloading Forge 953 src from minecraftforge.net
+2) Run install.sh/bat/py and wait
+3) Copy all folders and files in the src directory of this repository into /mcp/src/minecraft so you now have /mcp/src/minecraft/incantations and /mcp/src/minecraft/assets
+4) Run recompile.sh/bat/py
+5) Run reobfuscate_srg.sh/bat/py
+6) Copy the folder /mcp/reobf/minecraft/incantations and all it's contents into a new zip file (such as Incantations.zip)
+7) Copy the folder /mcp/src/minecraft/assets and all it's contents into the same zip file
+8) Serve with a side of eggs and enjoy!
+
+##About
+This mod adds scrolls which can be written with incantations on them. When cast/read, these incantations will do different things depending on how they are written such as summoning a zombie etc.
+However these incantations are not in English and are written in an ancient language that had been lost to time. You will need to learn this new language, it's structure and then how the incantations are formed in order to fully utilize it.
+
+####Getting Started
+(This is assuming you are playing in survival)
+You will need to find some Research Notes about in the field. It's believed these are in lost in old and ruined structures that inhabit the world. After you have found some research notes, your next goal is to start making the components required to write your scrolls.
+(I recommend using NEI here to see the recipes for all the items). At the very least you will need a scroll, quill and ink vial. Research Notes are optional but they will help you greatly (it allows you to use your keyboard in the GUI to type out the characters). Oh and you'll also need a writing desk.
+Once you have assembled all these you can then start writing the scrolls with incantations! Simply click the symbols on the side (Or type on your keyboard if you have Research Notes) and they will be written onto the scroll. Note that this is permanent so try not to make any mistakes or it'll become costly!
+Now I hear you saying "But how do we know what the incantations are supposed to be written like?". Well you have a few ways. You can experiment by writting them how you think they should go and see what happens. Let's just hope they don't back fire! Another way is to study existing scrolls then casting them to figure out what they do. Learning by doing!
+And you're good to go! Scrolls can fail, that's just the nature of magic. But writing them correctly will reduce that chance. And try not to write your scrolls too "powerful". Don't want them to back fire on you!
+
+####Cheaty stuff
+If you're lazy or trying out in creative, here is what the incantations layout looks like. Please note these are the English translations, you'll need to write them in the ancient language for them to work!
+
+summon <creature> [modifier/descriptor]
+teleport <x> <y> <z>
+attack <target> [attack type]
+
+####License
+Source code is available under Public Domain.
+All non-Source Code such as, but not limited to, textures, sounds and binaries are under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License: http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
