@@ -6,6 +6,7 @@ import incantations.item.ItemResearchNotes;
 import incantations.item.ItemScroll;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
@@ -14,8 +15,9 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 
-public class TileEntityWritingDesk extends TileEntity implements IInventory {
+public class TileEntityWritingDesk extends TileEntity implements ISidedInventory {
 
 	private ItemStack itemScroll;
 	private ItemStack itemResearchNotes;
@@ -172,5 +174,20 @@ public class TileEntityWritingDesk extends TileEntity implements IInventory {
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		return new int[]{-1, -2, -3, -4, -5};
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		return (ForgeDirection.getOrientation(j) == ForgeDirection.DOWN) && ((i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill));
 	}
 }
