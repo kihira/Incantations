@@ -17,19 +17,13 @@ public class ContainerWritingTable extends Container {
 
 	private TileEntityWritingDesk writingDesk;
 
-	private final SlotWritingTable scrollSlot;
-	private final SlotWritingTable researchSlot;
-	private final SlotWritingTable inkVialSlot;
-	private final Slot inkModifierSlot;
-	private final SlotWritingTable quillSlot;
-
 	public ContainerWritingTable(InventoryPlayer inventoryPlayer, TileEntityWritingDesk tileEntityWritingDesk) {
 		this.writingDesk = tileEntityWritingDesk;
-		this.addSlotToContainer(this.scrollSlot = new SlotWritingTable(tileEntityWritingDesk, -1, 137, 11));
-		this.addSlotToContainer(this.researchSlot = new SlotWritingTable(tileEntityWritingDesk, -2, 155, 11));
-		this.addSlotToContainer(this.inkVialSlot = new SlotWritingTable(tileEntityWritingDesk, -3, 155, 41));
-		this.addSlotToContainer(this.inkModifierSlot = new Slot(tileEntityWritingDesk, -4, 155, 97));
-		this.addSlotToContainer(this.quillSlot = new SlotWritingTable(tileEntityWritingDesk, -5, 137, 41));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -1, 137, 11));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -2, 155, 11));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -3, 155, 41));
+		this.addSlotToContainer(new Slot(tileEntityWritingDesk, -4, 155, 97));
+		this.addSlotToContainer(new SlotWritingTable(tileEntityWritingDesk, -5, 137, 41));
 
 		//Player Inventory
 		byte b0 = 8;

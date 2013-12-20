@@ -82,24 +82,26 @@ public class GuiWritingTable extends GuiContainer {
 		if (keyCode == 1) this.mc.thePlayer.closeScreen();
 		//Enter key. Not ideal but works
 		if (keyCode == 28) character = "⏎".charAt(0);
-		if (Symbol.symbolMap.containsKey(String.valueOf(character))) {
+		if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
 			if (this.writingDesk.getStackInSlot(-2) != null) {
 				if (this.scrollContentsArray.size() >= 90) return;
-				//Check we have all needed equipment
-				if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
-					this.writingDesk.onInventoryChanged();
+				//Check if pasting
+				if (isCtrlKeyDown() && keyCode == 47) {
+					String clipboard = getClipboardString();
+					if (clipboard != null) {
+						String[] characters = getClipboardString().toLowerCase().split("");
+						for (String character1 : characters) {
+							if (Symbol.symbolMap.containsKey(String.valueOf(character1))) {
+								this.scrollContentsArray.add(String.valueOf(character1));
+							}
+						}
+						this.sendIncantationData();
+					}
+				}
+				else if (Symbol.symbolMap.containsKey(String.valueOf(character))) {
 					this.scrollContentsArray.add(String.valueOf(character));
-
 					//Send scroll data to server
-					ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-					DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
-					try {
-						dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
-						this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
-					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}
+					this.sendIncantationData();
 				}
 			}
 		}
@@ -118,6 +120,19 @@ public class GuiWritingTable extends GuiContainer {
 		}
 	}
 
+	private void sendIncantationData() {
+		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+		DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
+		try {
+			dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
+			this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.writingDesk.onInventoryChanged();
+	}
+
 	protected void actionPerformed(GuiButton guiButton) {
 		if (this.symbolButtonMap.containsKey(guiButton.id)) {
 			if (this.scrollContentsArray.size() >= 90) return;
@@ -125,17 +140,7 @@ public class GuiWritingTable extends GuiContainer {
 			if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
 				this.writingDesk.onInventoryChanged();
 				this.scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
-
-				//Send scroll data to server
-				ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-				DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
-				try {
-					dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
-					this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
+				this.sendIncantationData();
 			}
 		}
 		//If scroll button is hit, scroooooooooll

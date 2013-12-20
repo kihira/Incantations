@@ -48,6 +48,14 @@ public class PacketHandlerServer implements IPacketHandler {
 				//Write the scroll
 				itemStack = LanguageUtil.writeScroll(incantation, modifier);
 				slot = writingTable.getSlot(0);
+				String oldIncantation = null;
+				if (slot.getHasStack()) {
+					ItemStack oldScroll = slot.getStack();
+					if (oldScroll.hasTagCompound()) {
+						NBTTagCompound data = oldScroll.getTagCompound();
+						oldIncantation = data.getString("incantation");
+					}
+				}
 				slot.putStack(itemStack);
 				//Damage the writing tools
 				slot = writingTable.getSlot(2);
