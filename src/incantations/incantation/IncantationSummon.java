@@ -92,6 +92,7 @@ public class IncantationSummon extends Incantation {
 			EntitySheep entitySheep = new EntitySheep(entityPlayer.worldObj);
 			entitySheep.setPosition(entityPlayer.posX + 1, entityPlayer.posY + 1, entityPlayer.posZ);
 			entitySheep.setAttackTarget(entityPlayer);
+			entitySheep.setCustomNameTag("Dragon");
 			entityPlayer.worldObj.spawnEntityInWorld(entitySheep);
 			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4Your scroll has summoned a foul beast from the depths of the Overworld!"));
 		}
