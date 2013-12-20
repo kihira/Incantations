@@ -27,7 +27,7 @@ public class PacketHandlerServer implements IPacketHandler {
 			try {
 				ContainerWritingTable writingTable = (ContainerWritingTable) entityPlayer.openContainer;
 				Slot slot = writingTable.getSlot(0);
-				String incantation = inputStream.readUTF();
+				String newData = inputStream.readUTF();
 				//Get current modifier on scroll
 				int modifier = 0;
 				if (slot.getHasStack()) {
@@ -46,33 +46,35 @@ public class PacketHandlerServer implements IPacketHandler {
 					slot.decrStackSize(1);
 				}
 				//Write the scroll
-				itemStack = LanguageUtil.writeScroll(incantation, modifier);
 				slot = writingTable.getSlot(0);
-				String oldIncantation = null;
 				if (slot.getHasStack()) {
 					ItemStack oldScroll = slot.getStack();
 					if (oldScroll.hasTagCompound()) {
 						NBTTagCompound data = oldScroll.getTagCompound();
-						oldIncantation = data.getString("incantation");
+						itemStack = LanguageUtil.writeScroll(data.getString("incantation") + newData, modifier);
 					}
+					else itemStack = LanguageUtil.writeScroll(newData, modifier);
 				}
+				else itemStack = LanguageUtil.writeScroll(newData, modifier);
 				slot.putStack(itemStack);
 				//Damage the writing tools
+				//Ink
 				slot = writingTable.getSlot(2);
 				itemStack = slot.getStack();
 				if (itemStack != null) {
-					if (itemStack.getItemDamage() >= itemStack.getMaxDamage()) slot.putStack(null);
+					if (itemStack.getItemDamage() + newData.replace("|", "").length() >= itemStack.getMaxDamage()) slot.putStack(new ItemStack(Item.glassBottle));
 					else {
-						itemStack.setItemDamage(itemStack.getItemDamage()+1);
+						itemStack.setItemDamage(itemStack.getItemDamage() + newData.replace("|", "").length());
 						slot.putStack(itemStack);
 					}
 				}
-				slot = writingTable.getSlot(4); //Quill
+				//Quill
+				slot = writingTable.getSlot(4);
 				itemStack = slot.getStack();
 				if (itemStack != null) {
-					if (itemStack.getItemDamage() >= itemStack.getMaxDamage()) slot.putStack(null);
+					if (itemStack.getItemDamage() + newData.replace("|", "").length() >= itemStack.getMaxDamage()) slot.putStack(null);
 					else {
-						itemStack.setItemDamage(itemStack.getItemDamage()+1);
+						itemStack.setItemDamage(itemStack.getItemDamage() + newData.replace("|", "").length());
 						slot.putStack(itemStack);
 					}
 				}

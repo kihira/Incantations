@@ -90,18 +90,21 @@ public class GuiWritingTable extends GuiContainer {
 					String clipboard = getClipboardString();
 					if (clipboard != null) {
 						String[] characters = getClipboardString().toLowerCase().split("");
+						ArrayList<String> newStuff = new ArrayList<String>();
 						for (String character1 : characters) {
 							if (Symbol.symbolMap.containsKey(String.valueOf(character1))) {
-								this.scrollContentsArray.add(String.valueOf(character1));
+								//this.scrollContentsArray.add(String.valueOf(character1));
+								newStuff.add(String.valueOf(character1));
 							}
 						}
-						this.sendIncantationData();
+						System.out.println(characters);
+						this.sendIncantationData(this.makeIncantationString(newStuff));
 					}
 				}
 				else if (Symbol.symbolMap.containsKey(String.valueOf(character))) {
 					this.scrollContentsArray.add(String.valueOf(character));
 					//Send scroll data to server
-					this.sendIncantationData();
+					this.sendIncantationData(character + "|");
 				}
 			}
 		}
@@ -120,11 +123,11 @@ public class GuiWritingTable extends GuiContainer {
 		}
 	}
 
-	private void sendIncantationData() {
+	private void sendIncantationData(String newData) {
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 		DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 		try {
-			dataoutputstream.writeUTF(this.makeIncantationString(this.scrollContentsArray));
+			dataoutputstream.writeUTF(newData);
 			this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
 		}
 		catch (Exception e) {
@@ -138,9 +141,9 @@ public class GuiWritingTable extends GuiContainer {
 			if (this.scrollContentsArray.size() >= 90) return;
 			//Check we have all needed equipment
 			if ((this.writingDesk.getStackInSlot(-3) != null) && (this.writingDesk.getStackInSlot(-5) != null) && (this.writingDesk.getStackInSlot(-1) != null)) {
-				this.writingDesk.onInventoryChanged();
+				//this.writingDesk.onInventoryChanged();
 				this.scrollContentsArray.add(symbolButtonMap.get(guiButton.id).getIdentifier());
-				this.sendIncantationData();
+				this.sendIncantationData(symbolButtonMap.get(guiButton.id).getIdentifier() + "|");
 			}
 		}
 		//If scroll button is hit, scroooooooooll
