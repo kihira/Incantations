@@ -3,6 +3,7 @@ package incantations.incantation;
 import incantations.util.LanguageUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
@@ -47,8 +48,8 @@ public class IncantationSummon extends Incantation {
 		String[] strings = incantation.split(" ");
 		int validCount = 1;
 		if (summonableList.containsKey(strings[1])) validCount++;
-		for (int i = 1; i < strings.length; i++) {
-			if (strings[i].equals("tooret") || strings[i].equals("spooh")) validCount++;
+		for (int i = 2; i < strings.length; i++) {
+			if (strings[i].equalsIgnoreCase("tooret") || strings[i].equalsIgnoreCase("spooh")) validCount++;
 			else break;
 		}
 		return validCount;
@@ -72,7 +73,7 @@ public class IncantationSummon extends Incantation {
 					if (words.length > 2) {
 						for (String word:words) {
 							if (word.equals("tooret")) entityLiving.setFire(5);
-							if (word.equals("spooh")) entityLiving.setAIMoveSpeed(15f);
+							if (word.equals("spooh")) entityLiving.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.4D);
 						}
 					}
 					entityPlayer.worldObj.spawnEntityInWorld(entityLiving);
