@@ -5,22 +5,30 @@ import incantations.client.gui.GuiWritingTable;
 import cpw.mods.fml.common.network.IGuiHandler;
 import incantations.inventory.ContainerWritingTable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import incantations.tileentity.TileEntityWritingDesk;
 
 public class GuiHandler implements IGuiHandler {
+
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
-		if (ID == 0) return new ContainerWritingTable(player.inventory, tileEntityWritingDesk);
-		else return null;
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		if ((ID == 0) && (tileEntity instanceof TileEntityWritingDesk)) {
+			TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) tileEntity;
+			return new ContainerWritingTable(player.inventory, tileEntityWritingDesk);
+		}
+		return null;
 	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
-		if (ID == 0) return new GuiWritingTable(player.inventory, tileEntityWritingDesk);
-		if (ID == 1) return new GuiResearchBook(player.getCurrentEquippedItem());
-		else return null;
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		if ((ID == 0) && (tileEntity instanceof TileEntityWritingDesk)) {
+			TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) tileEntity;
+			return new GuiWritingTable(player.inventory, tileEntityWritingDesk);
+		}
+		else if (ID == 1) return new GuiResearchBook(player.getCurrentEquippedItem());
+		return null;
 	}
 }
