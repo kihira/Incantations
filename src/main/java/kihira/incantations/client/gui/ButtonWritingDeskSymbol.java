@@ -19,17 +19,17 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 
 	//This draws text in a tooltip when mouse is hovered over the button. Draw the crude translation of the symbol
 	@Override
-	public void func_82251_b(int par1, int par2) {
+	public void func_146111_b(int par1, int par2) {
 		this.guiWritingTable.drawTooltip(symbol.getIdentifier(), par1, par2);
 	}
 
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
-		if (this.drawButton) {
+		if (this.visible) {
 			par1Minecraft.getTextureManager().bindTexture(buttonTextures);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.field_82253_i = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-			int k = this.getHoverState(this.field_82253_i);
+			this.field_146123_n = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			int k = this.getHoverState(this.field_146123_n);
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + k * 20, this.width / 2, this.height);
 			this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 			this.mouseDragged(par1Minecraft, par2, par3);

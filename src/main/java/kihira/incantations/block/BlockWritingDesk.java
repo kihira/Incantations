@@ -15,11 +15,11 @@ import net.minecraft.world.World;
 
 public class BlockWritingDesk extends Block implements ITileEntityProvider {
 
-	public BlockWritingDesk(int id) {
-		super(id, Material.wood);
-		setUnlocalizedName("writingDesk");
+	public BlockWritingDesk() {
+		super(Material.wood);
+		setBlockName("writingDesk");
 		setHardness(10f);
-		setTextureName("minecraft:wood_oak");
+		setBlockTextureName("minecraft:wood_oak");
 		setCreativeTab(Incantations.tabIncantations);
 	}
 
@@ -39,7 +39,7 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityWritingDesk();
 	}
 
@@ -60,8 +60,8 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, int blockID, int meta) {
-		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getBlockTileEntity(x, y, z);
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) world.getTileEntity(x, y, z);
 		for (int i = -5; i <= -1; i++) {
 			ItemStack itemStack = tileEntityWritingDesk.getStackInSlot(i);
 			if (itemStack != null) {
@@ -72,6 +72,6 @@ public class BlockWritingDesk extends Block implements ITileEntityProvider {
 				world.spawnEntityInWorld(entityItem);
 			}
 		}
-		super.breakBlock(world, x, y, z, blockID, meta);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

@@ -5,8 +5,8 @@ import net.minecraft.item.Item;
 
 public class ItemInkVial extends Item {
 
-	public ItemInkVial(int id) {
-		super(id);
+	public ItemInkVial() {
+		super();
 		setMaxDamage(50);
 		setMaxStackSize(1);
 		setUnlocalizedName("inkVial");

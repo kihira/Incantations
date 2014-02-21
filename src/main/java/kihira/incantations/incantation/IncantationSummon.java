@@ -1,17 +1,13 @@
 package kihira.incantations.incantation;
 
 import kihira.incantations.util.LanguageUtil;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.lang.reflect.Constructor;
@@ -73,7 +69,7 @@ public class IncantationSummon extends Incantation {
 					if (words.length > 2) {
 						for (String word:words) {
 							if (word.equals("tooret")) entityLiving.setFire(5);
-							if (word.equals("spooh")) entityLiving.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.4D);
+							if (word.equals("spooh")) entityLiving.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
 						}
 					}
 					entityPlayer.worldObj.spawnEntityInWorld(entityLiving);
@@ -95,10 +91,10 @@ public class IncantationSummon extends Incantation {
 			entitySheep.setAttackTarget(entityPlayer);
 			entitySheep.setCustomNameTag("Dragon");
 			entityPlayer.worldObj.spawnEntityInWorld(entitySheep);
-			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4Your scroll has summoned a foul beast from the depths of the Overworld!"));
+            entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll has summoned a foul beast from the depths of the Overworld!"));
 		}
 		else if (summonableList.containsKey(words[1])) {
-			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4Your scroll attempts to summon something but fails and unleashes a burst of magic!"));
+			entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll attempts to summon something but fails and unleashes a burst of magic!"));
 			entityPlayer.attackEntityFrom(DamageSource.magic, 6);
 		}
 	}
@@ -107,7 +103,7 @@ public class IncantationSummon extends Incantation {
 		Vec3 vec3 = player.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + (player.worldObj.isRemote ? 0.0D : (player.getEyeHeight() - 0.09D)), player.posZ);
 		Vec3 vec31 = player.getLookVec();
 		Vec3 vec32 = vec3.addVector(vec31.xCoord * maxBlockDistance, vec31.yCoord * maxBlockDistance, vec31.zCoord * maxBlockDistance);
-		return player.worldObj.clip(vec3, vec32);
+		return player.worldObj.rayTraceBlocks(vec3, vec32);
 	}
 
 	private boolean matchesSummonable(String word) {

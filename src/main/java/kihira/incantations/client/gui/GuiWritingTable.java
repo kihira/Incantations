@@ -2,8 +2,10 @@ package kihira.incantations.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import kihira.incantations.common.Incantations;
 import kihira.incantations.incantation.Symbol;
 import kihira.incantations.inventory.ContainerWritingTable;
+import kihira.incantations.network.IncantationsMessage;
 import kihira.incantations.tileentity.TileEntityWritingDesk;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -12,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -54,7 +55,7 @@ public class GuiWritingTable extends GuiContainer {
 			}
 			else {
 				ButtonWritingDeskSymbol buttonWritingDeskSymbol = new ButtonWritingDeskSymbol(this, entry.getValue(), i, this.guiLeft + 177, this.guiTop + 200, 20, 20);
-				buttonWritingDeskSymbol.drawButton = false;
+				buttonWritingDeskSymbol.visible = false;
 				this.buttonList.add(buttonWritingDeskSymbol);
 			}
 			i++;
@@ -125,12 +126,13 @@ public class GuiWritingTable extends GuiContainer {
 		DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 		try {
 			dataoutputstream.writeUTF(newData);
-			this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
+			//this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload("INC|WritingDesk", bytearrayoutputstream.toByteArray()));
+            Incantations.networkWrapper.sendToServer(new IncantationsMessage.WritingDeskScrollUpdateMessage(newData));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		this.writingDesk.onInventoryChanged();
+		this.writingDesk.markDirty();
 	}
 
 	protected void actionPerformed(GuiButton guiButton) {
@@ -154,13 +156,13 @@ public class GuiWritingTable extends GuiContainer {
 					if (button instanceof ButtonWritingDeskSymbol) {
 						if (button.id <= ((scrollAmount * 2) - 1)) {
 							//Hide and disable the button as we have scrolled past it
-							button.drawButton = false;
+							button.visible = false;
 							button.enabled = false;
 							button.yPosition = 1;
 							button.xPosition = 500;
 						}
 						else {
-							button.drawButton = true;
+							button.visible = true;
 							button.enabled = true;
 							if (j % 2 == 0) {
 								button.xPosition = this.guiLeft + 177;
@@ -186,13 +188,13 @@ public class GuiWritingTable extends GuiContainer {
 					GuiButton button = (GuiButton) object;
 					if (button instanceof ButtonWritingDeskSymbol) {
 						if ((button.id >= (15 + ((scrollAmount * 2) - 1))) || (scrollAmount * 2 > j)) {
-							button.drawButton = false;
+							button.visible = false;
 							button.enabled = false;
 							button.yPosition = 1;
 							button.xPosition = 500;
 						}
 						else {
-							button.drawButton = true;
+							button.visible = true;
 							button.enabled = true;
 							if (j % 2 == 0) {
 								button.xPosition = this.guiLeft + 177;
@@ -273,8 +275,8 @@ public class GuiWritingTable extends GuiContainer {
 		RenderHelper.disableStandardItemLighting();
 		for (Object aButtonList : this.buttonList) {
 			GuiButton guibutton = (GuiButton) aButtonList;
-			if (guibutton.func_82252_a()) {
-				guibutton.func_82251_b(par1 - this.guiLeft, par2 - this.guiTop);
+			if (guibutton.func_146115_a()) {
+				//guibutton.func_82251_b(par1 - this.guiLeft, par2 - this.guiTop); TODO Figure out wtf this does
 				break;
 			}
 		}

@@ -13,7 +13,7 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if ((ID == 0) && (tileEntity instanceof TileEntityWritingDesk)) {
 			TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) tileEntity;
 			return new ContainerWritingTable(player.inventory, tileEntityWritingDesk);
@@ -23,7 +23,7 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if ((ID == 0) && (tileEntity instanceof TileEntityWritingDesk)) {
 			TileEntityWritingDesk tileEntityWritingDesk = (TileEntityWritingDesk) tileEntity;
 			return new GuiWritingTable(player.inventory, tileEntityWritingDesk);

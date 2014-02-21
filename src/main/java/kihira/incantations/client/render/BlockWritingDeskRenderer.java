@@ -14,6 +14,7 @@ public class BlockWritingDeskRenderer extends TileEntitySpecialRenderer {
 	public BlockWritingDeskRenderer() {
 		modelWritingDesk = new ModelWritingDesk();
 	}
+
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
 		GL11.glPushMatrix();

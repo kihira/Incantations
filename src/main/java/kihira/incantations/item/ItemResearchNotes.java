@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemResearchNotes extends Item {
-	public ItemResearchNotes(int id) {
-		super(id);
+	public ItemResearchNotes() {
 		setMaxDamage(1);
 		setMaxStackSize(1);
 		setUnlocalizedName("researchNotes");
@@ -26,20 +25,20 @@ public class ItemResearchNotes extends Item {
 	}
 
 	@Override
-	public void getSubItems(int id, CreativeTabs creativeTabs, List list) {
+	public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
 		//The cheaty research book
-		ItemStack itemStack = new ItemStack(id, 1, 0);
+		ItemStack itemStack = new ItemStack(item, 1, 0);
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		NBTTagCompound researchTagCompound = new NBTTagCompound();
 		NBTTagList nbtTagList = new NBTTagList();
 		int i = 0;
 		for (Map.Entry<String, String> entry:LanguageUtil.translationList.entrySet()) {
-			nbtTagList.appendTag(new NBTTagString(String.valueOf(i), entry.getKey()));
+			nbtTagList.appendTag(new NBTTagString(String.valueOf(i)));
 			i++;
 		}
 		researchTagCompound.setTag("words", nbtTagList);
 		researchTagCompound.setBoolean("cheatybook", true);
-		nbtTagCompound.setCompoundTag("research", researchTagCompound);
+		nbtTagCompound.setTag("research", researchTagCompound);
 		itemStack.setTagCompound(nbtTagCompound);
 		list.add(itemStack);
 	}

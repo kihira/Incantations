@@ -2,7 +2,7 @@ package kihira.incantations.util;
 
 import kihira.incantations.common.Incantations;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.Resource;
+import net.minecraft.client.resources.IResource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +26,7 @@ public class LanguageUtil {
 	public static void loadTranslationList() {
 		ResourceLocation resourceLocation = new ResourceLocation("incantations", "lang/unknown.lang");
 		try {
-			Resource resource = Minecraft.getMinecraft().getResourceManager().getResource(resourceLocation);
+            IResource resource = Minecraft.getMinecraft().getResourceManager().getResource(resourceLocation);
 			Iterator iterator = IOUtils.readLines(resource.getInputStream(), Charsets.UTF_8).iterator();
 			while (iterator.hasNext()) {
 				String s = (String) iterator.next();

@@ -5,17 +5,16 @@ import kihira.incantations.item.ItemQuill;
 import kihira.incantations.item.ItemResearchNotes;
 import kihira.incantations.item.ItemScroll;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityWritingDesk extends TileEntity implements ISidedInventory {
 
@@ -61,8 +60,8 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-		readFromNBT(pkt.data);
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.func_148857_g());
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
@@ -70,7 +69,7 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag);
 	}
 
 	@Override
@@ -111,7 +110,7 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 				}
 				else {
 					inkModifier.stackSize -= j;
-					itemStack = new ItemStack(inkModifier.itemID, j, inkModifier.getItemDamage());
+					itemStack = new ItemStack(inkModifier.getItem(), j, inkModifier.getItemDamage());
 				}
 			}
 			if (i == -5) {
@@ -141,15 +140,15 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 		else if (i == -5) this.itemQuill = itemstack;
 	}
 
-	@Override
-	public String getInvName() {
-		return "Writing Desk";
-	}
+    @Override
+    public String getInventoryName() {
+        return "Writing Desk";
+    }
 
-	@Override
-	public boolean isInvNameLocalized() {
-		return false;
-	}
+    @Override
+    public boolean hasCustomInventoryName() {
+        return false;
+    }
 
 	@Override
 	public int getInventoryStackLimit() {
@@ -161,19 +160,19 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 		return getDistanceFrom(entityplayer.posX, entityplayer.posY, entityplayer.posZ) < 35;
 	}
 
-	@Override
-	public void openChest() {
+    @Override
+    public void openInventory() {
 
-	}
+    }
 
-	@Override
-	public void closeChest() {
+    @Override
+    public void closeInventory() {
 
-	}
+    }
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
+		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Items.glowstone_dust)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
 	}
 
 	@Override
@@ -183,11 +182,11 @@ public class TileEntityWritingDesk extends TileEntity implements ISidedInventory
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
+		return (i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Items.glowstone_dust)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		return (ForgeDirection.getOrientation(j) == ForgeDirection.DOWN) && ((i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Item.glowstone)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill));
+		return (ForgeDirection.getOrientation(j) == ForgeDirection.DOWN) && ((i == -1) && (itemstack.getItem() instanceof ItemScroll) || (i == -2) && (itemstack.getItem() instanceof ItemResearchNotes) || (i == -3) && (itemstack.getItem() instanceof ItemInkVial) || (i == -4) && ((itemstack.getItem() instanceof ItemRedstone) || (itemstack.getItem() == Items.glowstone_dust)) || (i == -5) && (itemstack.getItem() instanceof ItemQuill));
 	}
 }

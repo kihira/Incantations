@@ -5,6 +5,7 @@ import kihira.incantations.client.render.BlockWritingDeskRenderer;
 import kihira.incantations.client.render.ItemWritingDeskRenderer;
 import kihira.incantations.common.Incantations;
 import kihira.incantations.tileentity.TileEntityWritingDesk;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -13,9 +14,10 @@ public class ProxyClient extends ProxyCommon {
 	public static final ResourceLocation writingDeskTexture = new ResourceLocation("incantations", "textures/model/writingdesk1.png");
 	public static final ResourceLocation writingDeskTextureScroll = new ResourceLocation("incantations", "textures/model/writingdesk2.png");
 
+    @Override
 	public void registerRenderers() {
 		BlockWritingDeskRenderer blockWritingDeskRenderer = new BlockWritingDeskRenderer();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWritingDesk.class, blockWritingDeskRenderer);
-		MinecraftForgeClient.registerItemRenderer(Incantations.config.writingDeskID, new ItemWritingDeskRenderer());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Incantations.blockWritingDesk), new ItemWritingDeskRenderer());
 	}
 }

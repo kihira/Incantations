@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -23,7 +22,7 @@ public class GuiResearchBook extends GuiScreen {
 
 	public GuiResearchBook(ItemStack itemStack) {
 		if (itemStack.hasTagCompound()) {
-			this.wordsKnownList = itemStack.getTagCompound().getCompoundTag("research").getTagList("words");
+			this.wordsKnownList = itemStack.getTagCompound().getCompoundTag("research").getTagList("words", 0);
 		}
 	}
 
@@ -36,12 +35,14 @@ public class GuiResearchBook extends GuiScreen {
 		this.updateButtons();
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton par1GuiButton) {
 		if (par1GuiButton.id == 0) this.currentPage++;
 		else if (par1GuiButton.id == 1) this.currentPage--;
 		this.updateButtons();
 	}
 
+    @Override
 	public void drawScreen(int par1, int par2, float par3) {
 		int j = (this.width - 192) / 2;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -52,8 +53,7 @@ public class GuiResearchBook extends GuiScreen {
 		if (this.wordsKnownList != null) {
 			for (int i = 0; i < 4; i++) {
 				if (i + (currentPage * 4) >= this.wordsKnownList.tagCount()) break;
-				NBTTagString wordData = (NBTTagString) this.wordsKnownList.tagAt(i + (currentPage * 4));
-				String word = wordData.data;
+				String word = this.wordsKnownList.getStringTagAt(i + (currentPage * 4));
 				String[] characters = word.split("|");
 				int k = 0;
 				//Draw the symbols first
@@ -76,17 +76,17 @@ public class GuiResearchBook extends GuiScreen {
 				}
 				word = LanguageUtil.cleanIncantation(word);
 				//Then draw the dirty english version
-				this.fontRenderer.drawString(word, j + 39, 33 + (i * 33), 0);
+				this.fontRendererObj.drawString(word, j + 39, 33 + (i * 33), 0);
 				//Now the English translation
-				this.fontRenderer.drawString(LanguageUtil.getEnglishWord(word), j + 39, 42 + (i * 33), 0);
+				this.fontRendererObj.drawString(LanguageUtil.getEnglishWord(word), j + 39, 42 + (i * 33), 0);
 			}
 		}
 		super.drawScreen(par1, par2, par3);
 	}
 
 	private void updateButtons() {
-		this.prevPageButton.drawButton = this.currentPage != 0;
-		this.nextPageButton.drawButton = this.currentPage < this.wordsKnownList.tagCount()/4;
+		this.prevPageButton.visible = this.currentPage != 0;
+		this.nextPageButton.visible = this.currentPage < this.wordsKnownList.tagCount()/4;
 	}
 
 	private void drawScrollSymbol(int par1, int par2, int par3, int par4, int par5, int par6) {

@@ -3,7 +3,7 @@ package kihira.incantations.incantation;
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 
 public class IncantationTeleport extends Incantation {
 
@@ -44,7 +44,7 @@ public class IncantationTeleport extends Incantation {
 				break;
 			}
 		EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entityPlayer;
-		entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Poof!"));
+		entityPlayer.addChatComponentMessage(new ChatComponentText("Poof!"));
 		entityPlayerMP.playerNetServerHandler.setPlayerLocation(stuff[0], stuff[1], stuff[2], 0, 0);
 		}
 	}

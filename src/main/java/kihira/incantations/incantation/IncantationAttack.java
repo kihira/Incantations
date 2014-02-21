@@ -11,7 +11,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 
 import java.util.ArrayList;
@@ -101,7 +101,7 @@ public class IncantationAttack extends Incantation {
 				if (strings[i].equals("tkash")) target.attackEntityFrom(new DamageSourceCustom("slice", true).setMagicDamage(), 3);
 			}
 		}
-		else ChatMessageComponent.createFromText("§4Your scroll fizzles away as it finds nothing to attack");
+		else entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll fizzles away as it finds nothing to attack"));
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import kihira.incantations.item.ItemScroll;
 import kihira.incantations.tileentity.TileEntityWritingDesk;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
 
@@ -72,7 +72,7 @@ public class ContainerWritingTable extends Container {
 				else if (itemstack1.getItem() instanceof ItemResearchNotes) {
 					if (!this.mergeItemStack(itemstack1, 1, 2, false)) return null;
 				}
-				else if (itemstack1.getItem() instanceof ItemRedstone || itemstack1.itemID == Item.glowstone.itemID) {
+				else if (itemstack1.getItem() instanceof ItemRedstone || itemstack1.getItem() == Items.glowstone_dust) {
 					if (!this.mergeItemStack(itemstack1, 3, 4, false)) return null;
 				}
 			}
