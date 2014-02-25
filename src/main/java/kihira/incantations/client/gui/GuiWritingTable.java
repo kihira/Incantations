@@ -42,6 +42,7 @@ public class GuiWritingTable extends GuiContainer {
 	}
 
 	@Override
+    @SuppressWarnings("unchecked")
 	public void initGui() {
 		super.initGui();
 		int i = 0;
