@@ -101,7 +101,7 @@ public class IncantationAttack extends Incantation {
 				if (strings[i].equals("tkash")) target.attackEntityFrom(new DamageSourceCustom("slice", true).setMagicDamage(), 3);
 			}
 		}
-		else entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll fizzles away as it finds nothing to attack"));
+		else entityPlayer.addChatComponentMessage(new ChatComponentText("\u00a74Your scroll fizzles away as it finds nothing to attack"));
 	}
 
 	@Override

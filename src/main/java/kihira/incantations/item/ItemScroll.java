@@ -48,7 +48,7 @@ public class ItemScroll extends Item {
 				String[] words = LanguageUtil.cleanIncantation(incantation).split(" ");
 				Incantation incan = Incantation.incantationHashMap.get(words[0]);
 				if ((wordCount < words.length) && (validIncantationCount > wordCount)) {
-					player.addChatComponentMessage(new ChatComponentText("§3§o" + WordUtils.capitalize(LanguageUtil.cleanIncantation(words[wordCount])) + "..."));
+					player.addChatComponentMessage(new ChatComponentText("\u00a73\u00a7o" + WordUtils.capitalize(LanguageUtil.cleanIncantation(words[wordCount])) + "..."));
 					wordCount++;
 				}
 				else if (wordCount == words.length) {
@@ -56,7 +56,7 @@ public class ItemScroll extends Item {
 					player.setCurrentItemOrArmor(0, null);
 				}
 				else {
-					player.addChatComponentMessage(new ChatComponentText("§cYou try to read the next word however the incantation is poorly written and causes the scroll to malfunction"));
+					player.addChatComponentMessage(new ChatComponentText("\u00a7cYou try to read the next word however the incantation is poorly written and causes the scroll to malfunction"));
 					incan.doFailedIncantation(incantation, validIncantationCount, player);
 					player.setCurrentItemOrArmor(0, null);
 				}

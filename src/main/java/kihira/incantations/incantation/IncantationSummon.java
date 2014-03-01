@@ -83,7 +83,7 @@ public class IncantationSummon extends Incantation {
 
 	@Override
 	public void doFailedIncantation(String incantation, int validWordCount, EntityPlayer entityPlayer) {
-		//entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("§4You feel the scroll surge with power beyond you control!"));
+		//entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("\u00a74You feel the scroll surge with power beyond you control!"));
 		String[] words = incantation.split(" ");
 		if (words[1].equals("dragon")) {
 			EntitySheep entitySheep = new EntitySheep(entityPlayer.worldObj);
@@ -91,10 +91,10 @@ public class IncantationSummon extends Incantation {
 			entitySheep.setAttackTarget(entityPlayer);
 			entitySheep.setCustomNameTag("Dragon");
 			entityPlayer.worldObj.spawnEntityInWorld(entitySheep);
-            entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll has summoned a foul beast from the depths of the Overworld!"));
+            entityPlayer.addChatComponentMessage(new ChatComponentText("\u00a74Your scroll has summoned a foul beast from the depths of the Overworld!"));
 		}
 		else if (summonableList.containsKey(words[1])) {
-			entityPlayer.addChatComponentMessage(new ChatComponentText("§4Your scroll attempts to summon something but fails and unleashes a burst of magic!"));
+			entityPlayer.addChatComponentMessage(new ChatComponentText("\u00a74Your scroll attempts to summon something but fails and unleashes a burst of magic!"));
 			entityPlayer.attackEntityFrom(DamageSource.magic, 6);
 		}
 	}

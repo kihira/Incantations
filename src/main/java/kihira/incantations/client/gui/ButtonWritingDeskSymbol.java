@@ -42,7 +42,7 @@ public class ButtonWritingDeskSymbol extends GuiButton {
 				GL11.glDisable(GL11.GL_BLEND);
 			}
 			else {
-				this.drawCenteredString(par1Minecraft.fontRenderer, "§0" + this.symbol.getIdentifier(), this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, 16777120);
+				this.drawCenteredString(par1Minecraft.fontRenderer, "\u00a70" + this.symbol.getIdentifier(), this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, 16777120);
 			}
 		}
 	}
