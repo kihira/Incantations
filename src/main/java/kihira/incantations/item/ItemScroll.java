@@ -6,6 +6,7 @@ import kihira.incantations.util.LanguageUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -14,7 +15,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.List;
 
-public class ItemScroll extends Item {
+public class ItemScroll extends ItemMap {
 
 	private int wordCount = 0;
 	private int validIncantationCount = 0;
@@ -25,7 +26,6 @@ public class ItemScroll extends Item {
 		setMaxStackSize(1);
 		setMaxDamage(1);
 		setNoRepair();
-		setHasSubtypes(true);
 		setCreativeTab(Incantations.tabIncantations);
 	}
 

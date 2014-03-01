@@ -2,6 +2,7 @@ package kihira.incantations.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import kihira.incantations.client.render.BlockWritingDeskRenderer;
+import kihira.incantations.client.render.ItemScrollRenderer;
 import kihira.incantations.client.render.ItemWritingDeskRenderer;
 import kihira.incantations.common.Incantations;
 import kihira.incantations.tileentity.TileEntityWritingDesk;
@@ -19,5 +20,7 @@ public class ProxyClient extends ProxyCommon {
 		BlockWritingDeskRenderer blockWritingDeskRenderer = new BlockWritingDeskRenderer();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWritingDesk.class, blockWritingDeskRenderer);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Incantations.blockWritingDesk), new ItemWritingDeskRenderer());
+
+        MinecraftForgeClient.registerItemRenderer(Incantations.itemScroll, new ItemScrollRenderer());
 	}
 }
