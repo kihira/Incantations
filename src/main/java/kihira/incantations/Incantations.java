@@ -1,4 +1,4 @@
-package kihira.incantations.common;
+package kihira.incantations;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -7,18 +7,21 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import kihira.incantations.block.BlockWritingDesk;
-import kihira.incantations.incantation.IncantationAttack;
-import kihira.incantations.incantation.IncantationSummon;
-import kihira.incantations.incantation.IncantationTeleport;
-import kihira.incantations.incantation.Symbol;
-import kihira.incantations.item.ItemInkVial;
-import kihira.incantations.item.ItemQuill;
-import kihira.incantations.item.ItemResearchNotes;
-import kihira.incantations.item.ItemScroll;
-import kihira.incantations.network.PacketHandler;
-import kihira.incantations.proxy.ProxyCommon;
-import kihira.incantations.tileentity.TileEntityWritingDesk;
+import kihira.incantations.common.Config;
+import kihira.incantations.common.CreativeTabIncantations;
+import kihira.incantations.common.GuiHandler;
+import kihira.incantations.common.block.BlockWritingDesk;
+import kihira.incantations.common.incantation.IncantationAttack;
+import kihira.incantations.common.incantation.IncantationSummon;
+import kihira.incantations.common.incantation.IncantationTeleport;
+import kihira.incantations.common.incantation.Symbol;
+import kihira.incantations.common.item.ItemInkVial;
+import kihira.incantations.common.item.ItemQuill;
+import kihira.incantations.common.item.ItemResearchNotes;
+import kihira.incantations.common.item.ItemScroll;
+import kihira.incantations.common.network.PacketHandler;
+import kihira.incantations.proxy.CommonProxy;
+import kihira.incantations.common.tileentity.TileEntityWritingDesk;
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -44,8 +47,8 @@ public class Incantations {
 	public static final ItemQuill itemQuill = new ItemQuill();
 	public static final BlockWritingDesk blockWritingDesk = new BlockWritingDesk();
 
-	@SidedProxy(clientSide = "kihira.incantations.proxy.ProxyClient", serverSide = "kihira.incantations.proxy.ProxyCommon")
-	public static ProxyCommon proxy;
+	@SidedProxy(clientSide = "kihira.incantations.proxy.ClientProxy", serverSide = "kihira.incantations.proxy.CommonProxy")
+	public static CommonProxy proxy;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {

@@ -1,4 +1,4 @@
-package kihira.incantations.network;
+package kihira.incantations.common.network;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;

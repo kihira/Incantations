@@ -1,6 +1,6 @@
 package kihira.incantations.proxy;
 
-public class ProxyCommon {
+public class CommonProxy {
 
 	public void registerRenderers() { }
 }

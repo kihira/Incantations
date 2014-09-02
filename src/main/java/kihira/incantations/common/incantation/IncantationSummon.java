@@ -1,4 +1,4 @@
-package kihira.incantations.incantation;
+package kihira.incantations.common.incantation;
 
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.entity.EntityLiving;
@@ -100,7 +100,7 @@ public class IncantationSummon extends Incantation {
 	}
 
 	public static MovingObjectPosition getBlockLookAt(EntityPlayer player, double maxBlockDistance) {
-		Vec3 vec3 = player.worldObj.getWorldVec3Pool().getVecFromPool(player.posX, player.posY + (player.worldObj.isRemote ? 0.0D : (player.getEyeHeight() - 0.09D)), player.posZ);
+		Vec3 vec3 = Vec3.createVectorHelper(player.posX, player.posY + (player.worldObj.isRemote ? 0.0D : (player.getEyeHeight() - 0.09D)), player.posZ);
 		Vec3 vec31 = player.getLookVec();
 		Vec3 vec32 = vec3.addVector(vec31.xCoord * maxBlockDistance, vec31.yCoord * maxBlockDistance, vec31.zCoord * maxBlockDistance);
 		return player.worldObj.rayTraceBlocks(vec3, vec32);

@@ -3,11 +3,11 @@ package kihira.incantations.common;
 import kihira.incantations.client.gui.GuiResearchBook;
 import kihira.incantations.client.gui.GuiWritingTable;
 import cpw.mods.fml.common.network.IGuiHandler;
-import kihira.incantations.inventory.ContainerWritingTable;
+import kihira.incantations.common.inventory.ContainerWritingTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import kihira.incantations.tileentity.TileEntityWritingDesk;
+import kihira.incantations.common.tileentity.TileEntityWritingDesk;
 
 public class GuiHandler implements IGuiHandler {
 

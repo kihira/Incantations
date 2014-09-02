@@ -1,4 +1,4 @@
-package kihira.incantations.incantation;
+package kihira.incantations.common.incantation;
 
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.entity.player.EntityPlayer;

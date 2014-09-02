@@ -2,11 +2,11 @@ package kihira.incantations.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import kihira.incantations.common.Incantations;
-import kihira.incantations.incantation.Symbol;
-import kihira.incantations.inventory.ContainerWritingTable;
-import kihira.incantations.network.IncantationsMessage;
-import kihira.incantations.tileentity.TileEntityWritingDesk;
+import kihira.incantations.Incantations;
+import kihira.incantations.common.incantation.Symbol;
+import kihira.incantations.common.inventory.ContainerWritingTable;
+import kihira.incantations.common.network.IncantationsMessage;
+import kihira.incantations.common.tileentity.TileEntityWritingDesk;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;

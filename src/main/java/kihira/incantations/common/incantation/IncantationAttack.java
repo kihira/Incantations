@@ -1,4 +1,4 @@
-package kihira.incantations.incantation;
+package kihira.incantations.common.incantation;
 
 import kihira.incantations.common.DamageSourceCustom;
 import kihira.incantations.util.LanguageUtil;
@@ -88,7 +88,7 @@ public class IncantationAttack extends Incantation {
 			}
 		}
 		else {
-			List possibleTargets = entityPlayer.worldObj.getEntitiesWithinAABB(targetableList.get(strings[1]), AxisAlignedBB.getAABBPool().getAABB(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, entityPlayer.posX + 1, entityPlayer.posY + 1, entityPlayer.posZ + 1).expand(20, 20 ,20));
+			List possibleTargets = entityPlayer.worldObj.getEntitiesWithinAABB(targetableList.get(strings[1]), AxisAlignedBB.getBoundingBox(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, entityPlayer.posX + 1, entityPlayer.posY + 1, entityPlayer.posZ + 1).expand(20, 20 ,20));
 			if (possibleTargets.size() > 0) {
 			target = (EntityLivingBase) possibleTargets.get(random.nextInt(possibleTargets.size()));
 			}
