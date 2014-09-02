@@ -1,7 +1,7 @@
-package kihira.incantations.item;
+package kihira.incantations.common.item;
 
-import kihira.incantations.common.Incantations;
-import kihira.incantations.incantation.Incantation;
+import kihira.incantations.Incantations;
+import kihira.incantations.common.incantation.Incantation;
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,6 +1,6 @@
 package kihira.incantations.client.gui;
 
-import kihira.incantations.incantation.Symbol;
+import kihira.incantations.common.incantation.Symbol;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;

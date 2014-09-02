@@ -1,6 +1,6 @@
-package kihira.incantations.item;
+package kihira.incantations.common.item;
 
-import kihira.incantations.common.Incantations;
+import kihira.incantations.Incantations;
 import net.minecraft.item.Item;
 
 public class ItemQuill extends Item {

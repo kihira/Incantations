@@ -1,4 +1,4 @@
-package kihira.incantations.network;
+package kihira.incantations.common.network;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -6,8 +6,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import kihira.incantations.common.Incantations;
-import kihira.incantations.inventory.ContainerWritingTable;
+import kihira.incantations.Incantations;
+import kihira.incantations.common.inventory.ContainerWritingTable;
 import kihira.incantations.util.LanguageUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;

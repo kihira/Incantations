@@ -1,7 +1,7 @@
-package kihira.incantations.block;
+package kihira.incantations.common.block;
 
-import kihira.incantations.common.Incantations;
-import kihira.incantations.tileentity.TileEntityWritingDesk;
+import kihira.incantations.Incantations;
+import kihira.incantations.common.tileentity.TileEntityWritingDesk;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

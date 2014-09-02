@@ -1,6 +1,6 @@
 package kihira.incantations.util;
 
-import kihira.incantations.common.Incantations;
+import kihira.incantations.Incantations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.item.ItemStack;

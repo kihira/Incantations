@@ -1,4 +1,4 @@
-package kihira.incantations.incantation;
+package kihira.incantations.common.incantation;
 
 import net.minecraft.util.ResourceLocation;
 

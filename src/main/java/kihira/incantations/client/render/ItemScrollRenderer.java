@@ -1,6 +1,6 @@
 package kihira.incantations.client.render;
 
-import kihira.incantations.incantation.Symbol;
+import kihira.incantations.common.incantation.Symbol;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;

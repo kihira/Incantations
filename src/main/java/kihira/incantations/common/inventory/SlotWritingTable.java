@@ -1,9 +1,9 @@
-package kihira.incantations.inventory;
+package kihira.incantations.common.inventory;
 
-import kihira.incantations.item.ItemQuill;
-import kihira.incantations.item.ItemResearchNotes;
-import kihira.incantations.item.ItemScroll;
-import kihira.incantations.item.ItemInkVial;
+import kihira.incantations.common.item.ItemQuill;
+import kihira.incantations.common.item.ItemResearchNotes;
+import kihira.incantations.common.item.ItemScroll;
+import kihira.incantations.common.item.ItemInkVial;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
